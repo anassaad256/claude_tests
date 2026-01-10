@@ -1,0 +1,35 @@
+{
+  "name": "Audiobook Narrator",
+  "short_name": "Audiobook",
+  "description": "Listen to your books with text-to-speech narration",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ecf0f1",
+  "theme_color": "#2c3e50",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%232c3e50' width='100' height='100'/%3E%3Ctext x='50' y='65' font-size='60' text-anchor='middle' fill='%23ffffff'%3E📚%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%232c3e50' width='100' height='100'/%3E%3Ctext x='50' y='65' font-size='60' text-anchor='middle' fill='%23ffffff'%3E📚%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["books", "education", "productivity"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Upload Book",
+      "short_name": "Upload",
+      "description": "Upload a new book to narrate",
+      "url": "/?action=upload"
+    }
+  ],
+  "prefer_related_applications": false
+}

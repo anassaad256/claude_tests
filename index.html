@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="description" content="Audiobook Narrator - Listen to your books with text-to-speech">
+    <title>Audiobook Narrator</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Audiobook Narrator</h1>
+        </header>
+
+        <main>
+            <!-- File Upload Section -->
+            <section class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <input type="file" id="fileInput" accept=".txt,.epub,.pdf" hidden>
+                    <label for="fileInput" class="upload-label">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <span>Upload Book (TXT, EPUB, PDF)</span>
+                    </label>
+                </div>
+                <div class="file-info" id="fileInfo"></div>
+            </section>
+
+            <!-- Book Content Display -->
+            <section class="book-section" id="bookSection" style="display: none;">
+                <div class="book-title" id="bookTitle"></div>
+                <div class="book-content" id="bookContent"></div>
+                <div class="progress-info">
+                    <span id="progressText">0%</span>
+                </div>
+            </section>
+
+            <!-- Playback Controls -->
+            <section class="controls-section" id="controlsSection" style="display: none;">
+                <div class="main-controls">
+                    <button id="playPauseBtn" class="btn-primary" disabled>
+                        <svg class="play-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <svg class="pause-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                            <rect x="6" y="4" width="4" height="16"></rect>
+                            <rect x="14" y="4" width="4" height="16"></rect>
+                        </svg>
+                        <span>Play</span>
+                    </button>
+                    <button id="stopBtn" class="btn-secondary" disabled>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="6" y="6" width="12" height="12"></rect>
+                        </svg>
+                        Stop
+                    </button>
+                </div>
+
+                <!-- Advanced Controls -->
+                <div class="advanced-controls">
+                    <div class="control-group">
+                        <label for="speedControl">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            Speed: <span id="speedValue">1.0x</span>
+                        </label>
+                        <input type="range" id="speedControl" min="0.5" max="2.0" step="0.1" value="1.0">
+                    </div>
+
+                    <div class="control-group">
+                        <label for="pitchControl">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 18V5l12-2v13"></path>
+                                <circle cx="6" cy="18" r="3"></circle>
+                                <circle cx="18" cy="16" r="3"></circle>
+                            </svg>
+                            Pitch: <span id="pitchValue">1.0</span>
+                        </label>
+                        <input type="range" id="pitchControl" min="0.5" max="2.0" step="0.1" value="1.0">
+                    </div>
+
+                    <div class="control-group">
+                        <label for="voiceSelect">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                <line x1="12" y1="19" x2="12" y2="23"></line>
+                                <line x1="8" y1="23" x2="16" y2="23"></line>
+                            </svg>
+                            Voice:
+                        </label>
+                        <select id="voiceSelect" class="voice-select"></select>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+
+                <!-- Additional Actions -->
+                <div class="action-buttons">
+                    <button id="loadNewBtn" class="btn-secondary">Load New Book</button>
+                </div>
+            </section>
+
+            <!-- Instructions -->
+            <section class="instructions" id="instructions">
+                <h2>How to Use:</h2>
+                <ol>
+                    <li>Upload a text file containing your book</li>
+                    <li>Adjust playback speed, pitch, and voice to your preference</li>
+                    <li>Press Play to start narration</li>
+                    <li>The app will remember your position</li>
+                </ol>
+                <p class="tip">💡 Tip: You can install this app on your phone's home screen!</p>
+            </section>
+        </main>
+
+        <footer>
+            <p>Audiobook Narrator App</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
