@@ -11,54 +11,248 @@
             box-sizing: border-box;
         }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+
+        /* Upload Screen */
+        .upload-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .upload-screen.hidden {
+            display: none;
+        }
+
+        .upload-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .upload-container h1 {
+            color: #2c5282;
+            margin-bottom: 8px;
+            font-size: 24px;
+        }
+
+        .upload-container .subtitle {
+            color: #718096;
+            margin-bottom: 30px;
+        }
+
+        .drop-zone {
+            border: 2px dashed #cbd5e0;
+            border-radius: 8px;
+            padding: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .drop-zone:hover, .drop-zone.drag-over {
+            border-color: #3182ce;
+            background: #ebf8ff;
+        }
+
+        .drop-zone-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .drop-zone-text {
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+
+        .drop-zone-hint {
+            color: #a0aec0;
+            font-size: 13px;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        .config-section {
+            text-align: left;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .config-section h3 {
+            color: #4a5568;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .config-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .config-field label {
+            font-size: 12px;
+            color: #718096;
+            margin-bottom: 5px;
+        }
+
+        .config-field input, .config-field select {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .config-field input:focus, .config-field select:focus {
+            outline: none;
+            border-color: #3182ce;
+        }
+
+        .template-link {
+            margin-top: 20px;
+            font-size: 13px;
+        }
+
+        .template-link a {
+            color: #3182ce;
+            text-decoration: none;
+        }
+
+        .template-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Dashboard Screen */
+        .dashboard-screen {
+            display: none;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .dashboard-screen.visible {
+            display: block;
+        }
+
+        .dashboard-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #3182ce;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2c5282;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Dashboard Styles */
+        @media print {
+            .dashboard-actions, .upload-screen {
+                display: none !important;
+            }
+            .dashboard-screen {
+                display: block !important;
+                padding: 0;
+            }
+            body {
+                background: white;
+            }
+        }
+
         @page {
             size: letter;
             margin: 0.5in;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 11px;
-            color: #333;
-            background: #fff;
-            padding: 0.25in;
-            max-width: 8.5in;
+        .dashboard {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 25px;
         }
 
         .header {
             text-align: center;
             border-bottom: 3px solid #2c5282;
-            padding-bottom: 8px;
-            margin-bottom: 12px;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .header h1 {
-            font-size: 16px;
+            font-size: 18px;
             color: #2c5282;
             margin-bottom: 4px;
         }
 
         .header .subtitle {
-            font-size: 12px;
+            font-size: 13px;
             color: #666;
         }
 
         .header .period {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             color: #2c5282;
-            margin-top: 4px;
+            margin-top: 5px;
         }
 
         .main-content {
             display: flex;
-            gap: 15px;
+            gap: 20px;
         }
 
         .column {
             flex: 1;
             border: 2px solid #e2e8f0;
-            border-radius: 6px;
+            border-radius: 8px;
             overflow: hidden;
         }
 
@@ -71,9 +265,9 @@
         }
 
         .column-header {
-            padding: 8px 12px;
+            padding: 10px 15px;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 14px;
             text-align: center;
         }
 
@@ -88,7 +282,7 @@
         }
 
         .section {
-            padding: 8px 12px;
+            padding: 12px 15px;
             border-bottom: 1px solid #e2e8f0;
         }
 
@@ -97,34 +291,34 @@
         }
 
         .section-title {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 600;
             color: #718096;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .metric-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 3px 0;
+            padding: 4px 0;
         }
 
         .metric-label {
-            font-size: 10px;
+            font-size: 12px;
             color: #4a5568;
         }
 
         .metric-value {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
             color: #2d3748;
         }
 
         .metric-value.large {
-            font-size: 20px;
+            font-size: 24px;
             color: #2c5282;
         }
 
@@ -140,67 +334,79 @@
             color: #e53e3e;
         }
 
-        .target-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 9px;
-            padding: 2px 6px;
-            border-radius: 10px;
-        }
-
-        .target-indicator.met {
-            background: #c6f6d5;
-            color: #276749;
-        }
-
-        .target-indicator.missed {
-            background: #fed7d7;
-            color: #c53030;
-        }
-
         .bar-chart {
             height: 8px;
             background: #e2e8f0;
             border-radius: 4px;
             overflow: hidden;
-            margin-top: 4px;
+            margin-top: 5px;
         }
 
         .bar-fill {
             height: 100%;
             border-radius: 4px;
-            transition: width 0.3s ease;
+            transition: width 0.5s ease;
         }
 
         .bar-fill.good { background: #48bb78; }
         .bar-fill.warning { background: #ecc94b; }
         .bar-fill.alert { background: #fc8181; }
 
+        .quality-section {
+            background: #fafafa;
+            margin-top: 15px;
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .quality-section .section-title {
+            margin-bottom: 10px;
+        }
+
+        .outlier-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .outlier-table th, .outlier-table td {
+            padding: 6px 10px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .outlier-table th {
+            font-weight: 600;
+            color: #4a5568;
+            background: #f7fafc;
+        }
+
         .footer {
-            margin-top: 12px;
-            padding-top: 8px;
+            margin-top: 15px;
+            padding-top: 10px;
             border-top: 1px solid #e2e8f0;
             display: flex;
             justify-content: space-between;
-            font-size: 9px;
+            font-size: 11px;
             color: #718096;
         }
 
         .legend {
             display: flex;
             gap: 15px;
+            align-items: center;
         }
 
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
         }
 
         .legend-dot {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
         }
 
@@ -208,291 +414,550 @@
         .legend-dot.warning { background: #ecc94b; }
         .legend-dot.alert { background: #fc8181; }
 
-        .quality-section {
-            background: #fafafa;
-            margin-top: 10px;
-            border-radius: 6px;
-            padding: 10px 12px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .quality-section .section-title {
-            margin-bottom: 8px;
-        }
-
-        .quality-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .outlier-buckets {
-            font-size: 9px;
-            margin-top: 6px;
-        }
-
-        .outlier-buckets table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .outlier-buckets th, .outlier-buckets td {
-            padding: 3px 6px;
-            text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .outlier-buckets th {
-            font-weight: 600;
-            color: #4a5568;
-            background: #f7fafc;
-        }
-
-        .notes-section {
-            margin-top: 10px;
-            padding: 8px 12px;
-            background: #fffaf0;
-            border: 1px solid #fbd38d;
-            border-radius: 6px;
-            font-size: 9px;
-        }
-
-        .notes-section h4 {
-            font-size: 10px;
-            color: #975a16;
-            margin-bottom: 4px;
-        }
-
         .phi-notice {
             text-align: center;
-            font-size: 8px;
+            font-size: 10px;
             color: #a0aec0;
-            margin-top: 8px;
+            margin-top: 10px;
             font-style: italic;
+        }
+
+        /* Error state */
+        .error-message {
+            background: #fff5f5;
+            border: 1px solid #fc8181;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .error-message.visible {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Bone Marrow Service Operations Dashboard</h1>
-        <div class="subtitle">Hematopathology Section | DMC/WSU</div>
-        <div class="period">December 2024</div>
-    </div>
+    <!-- Upload Screen -->
+    <div class="upload-screen" id="upload-screen">
+        <div class="upload-container">
+            <h1>Bone Marrow Service Dashboard</h1>
+            <p class="subtitle">Hematopathology Operations Metrics</p>
 
-    <div class="main-content">
-        <!-- Adult Column -->
-        <div class="column adult">
-            <div class="column-header">ADULT BONE MARROW</div>
+            <div class="drop-zone" id="drop-zone">
+                <div class="drop-zone-icon">📊</div>
+                <p class="drop-zone-text">Drop your CSV file here or click to upload</p>
+                <p class="drop-zone-hint">Export from CoPath with case data (no PHI)</p>
+            </div>
+            <input type="file" id="file-input" accept=".csv">
 
-            <div class="section">
-                <div class="section-title">Volume</div>
-                <div class="metric-row">
-                    <span class="metric-label">Total Cases</span>
-                    <span class="metric-value large">45</span>
+            <div class="config-section">
+                <h3>Dashboard Settings</h3>
+                <div class="config-grid">
+                    <div class="config-field">
+                        <label>Report Period</label>
+                        <input type="text" id="report-period" placeholder="e.g., January 2025">
+                    </div>
+                    <div class="config-field">
+                        <label>Reviewer Name</label>
+                        <input type="text" id="reviewer-name" placeholder="e.g., Dr. Smith">
+                    </div>
+                    <div class="config-field">
+                        <label>TAT Target (days)</label>
+                        <input type="number" id="tat-target" value="3" min="1" max="14">
+                    </div>
+                    <div class="config-field">
+                        <label>Lag Target (days)</label>
+                        <input type="number" id="lag-target" value="1" min="0.5" max="7" step="0.5">
+                    </div>
                 </div>
             </div>
 
-            <div class="section">
-                <div class="section-title">Primary TAT (Accession to Sign-out)</div>
-                <div class="metric-row">
-                    <span class="metric-label">Median</span>
-                    <span class="metric-value">2.7 days</span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">90th Percentile</span>
-                    <span class="metric-value">4.7 days</span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">% Within Target (3 days)</span>
-                    <span class="metric-value alert">64.4%</span>
-                </div>
-                <div class="bar-chart">
-                    <div class="bar-fill alert" style="width: 64.4%"></div>
-                </div>
+            <div class="template-link">
+                <a href="#" id="download-template">Download CSV template</a>
             </div>
 
-            <div class="section">
-                <div class="section-title">Flow Dependency (Accession to Flow Result)</div>
-                <div class="metric-row">
-                    <span class="metric-label">Median</span>
-                    <span class="metric-value">2.0 days</span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">90th Percentile</span>
-                    <span class="metric-value">4.4 days</span>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-title">Service Responsiveness (Flow to Sign-out)</div>
-                <div class="metric-row">
-                    <span class="metric-label">Median Lag</span>
-                    <span class="metric-value">0.7 days</span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">90th Percentile Lag</span>
-                    <span class="metric-value">1.3 days</span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">% Within Target (1 days)</span>
-                    <span class="metric-value warning">79.5%</span>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-title">Quality Indicators</div>
-                <div class="metric-row">
-                    <span class="metric-label">Amended/Corrected Reports</span>
-                    <span class="metric-value">2 (4.4%)</span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">TAT Outliers (>7 days)</span>
-                    <span class="metric-value">0</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pediatric Column -->
-        <div class="column pediatric">
-            <div class="column-header">PEDIATRIC BONE MARROW</div>
-
-            <div class="section">
-                <div class="section-title">Volume</div>
-                <div class="metric-row">
-                    <span class="metric-label">Total Cases</span>
-                    <span class="metric-value large">12</span>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-title">Primary TAT (Accession to Sign-out)</div>
-                <div class="metric-row">
-                    <span class="metric-label">Median</span>
-                    <span class="metric-value">3.0 days</span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">90th Percentile</span>
-                    <span class="metric-value">5.0 days</span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">% Within Target (3 days)</span>
-                    <span class="metric-value alert">50.0%</span>
-                </div>
-                <div class="bar-chart">
-                    <div class="bar-fill alert" style="width: 50.0%"></div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-title">Flow Dependency (Accession to Flow Result)</div>
-                <div class="metric-row">
-                    <span class="metric-label">Median</span>
-                    <span class="metric-value">2.2 days</span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">90th Percentile</span>
-                    <span class="metric-value">3.8 days</span>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-title">Service Responsiveness (Flow to Sign-out)</div>
-                <div class="metric-row">
-                    <span class="metric-label">Median Lag</span>
-                    <span class="metric-value">0.8 days</span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">90th Percentile Lag</span>
-                    <span class="metric-value">2.5 days</span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">% Within Target (1 days)</span>
-                    <span class="metric-value warning">81.8%</span>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-title">Quality Indicators</div>
-                <div class="metric-row">
-                    <span class="metric-label">Amended/Corrected Reports</span>
-                    <span class="metric-value">1 (8.3%)</span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">TAT Outliers (>7 days)</span>
-                    <span class="metric-value">0</span>
-                </div>
-            </div>
+            <div class="error-message" id="error-message"></div>
         </div>
     </div>
 
-    <div class="quality-section">
-        <div class="section-title">TAT Outlier Analysis (Combined)</div>
-        <div class="outlier-buckets">
-            <table>
-                <tr>
-                    <th>Driver Category</th>
-                    <th>Adult</th>
-                    <th>Pediatric</th>
-                    <th>Total</th>
-                </tr>
-                <tr>
-                    <td>Flow Cytometry Delay (external)</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-                <tr>
-                    <td>Internal Service Lag</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-                <tr>
-                    <td>Processing/Technical Issues</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-                <tr>
-                    <td>Other/Multiple Factors</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-            </table>
+    <!-- Dashboard Screen -->
+    <div class="dashboard-screen" id="dashboard-screen">
+        <div class="dashboard-actions">
+            <button class="btn btn-secondary" id="back-btn">← Upload New File</button>
+            <div class="btn-group">
+                <button class="btn btn-primary" id="print-btn">Print / Save PDF</button>
+            </div>
+        </div>
+
+        <div class="dashboard" id="dashboard">
+            <!-- Dashboard content will be injected here -->
         </div>
     </div>
 
-    <div class="notes-section" id="notes-section" style="display: none">
-        <h4>Notes / Action Items</h4>
-        <p></p>
-    </div>
+    <script>
+        // Configuration
+        let config = {
+            tatTarget: 3,
+            lagTarget: 1,
+            outlierThreshold: 7,
+            targetMetThreshold: 90,
+            nearTargetThreshold: 75
+        };
 
-    <div class="footer">
-        <div class="legend">
-            <span style="font-weight: 600;">Performance:</span>
-            <div class="legend-item">
-                <div class="legend-dot good"></div>
-                <span>Target Met (>90%)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-dot warning"></div>
-                <span>Near Target (75-90%)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-dot alert"></div>
-                <span>Below Target (<75%)</span>
-            </div>
-        </div>
-        <div>
-            <span>Prepared: 2026-01-26 | Reviewed by: Dr. Faculty</span>
-        </div>
-    </div>
+        // DOM Elements
+        const uploadScreen = document.getElementById('upload-screen');
+        const dashboardScreen = document.getElementById('dashboard-screen');
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const errorMessage = document.getElementById('error-message');
+        const dashboard = document.getElementById('dashboard');
 
-    <div class="phi-notice">
-        This report contains aggregate operational data only. No Protected Health Information (PHI) is included.
-    </div>
+        // Set default report period to previous month
+        const now = new Date();
+        const prevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        document.getElementById('report-period').value = prevMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+        // Event Listeners
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-over');
+        });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            const file = e.dataTransfer.files[0];
+            if (file) processFile(file);
+        });
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) processFile(file);
+        });
+
+        document.getElementById('back-btn').addEventListener('click', () => {
+            dashboardScreen.classList.remove('visible');
+            uploadScreen.classList.remove('hidden');
+        });
+
+        document.getElementById('print-btn').addEventListener('click', () => {
+            window.print();
+        });
+
+        document.getElementById('download-template').addEventListener('click', (e) => {
+            e.preventDefault();
+            downloadTemplate();
+        });
+
+        // Process uploaded file
+        function processFile(file) {
+            if (!file.name.endsWith('.csv')) {
+                showError('Please upload a CSV file');
+                return;
+            }
+
+            // Update config from inputs
+            config.tatTarget = parseFloat(document.getElementById('tat-target').value) || 3;
+            config.lagTarget = parseFloat(document.getElementById('lag-target').value) || 1;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const csv = e.target.result;
+                    const cases = parseCSV(csv);
+
+                    if (cases.length === 0) {
+                        showError('No valid cases found in the CSV file. Make sure your CSV has columns: patient_age_category, accession_datetime, signout_datetime');
+                        return;
+                    }
+
+                    const metrics = calculateAllMetrics(cases);
+                    renderDashboard(metrics);
+
+                    uploadScreen.classList.add('hidden');
+                    dashboardScreen.classList.add('visible');
+                    hideError();
+                } catch (err) {
+                    showError('Error processing file: ' + err.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Parse CSV
+        function parseCSV(csv) {
+            const lines = csv.trim().split('\n');
+            if (lines.length < 2) return [];
+
+            const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/[^a-z0-9_]/g, '_'));
+            const cases = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                const values = parseCSVLine(lines[i]);
+                if (values.length !== headers.length) continue;
+
+                const row = {};
+                headers.forEach((h, idx) => {
+                    row[h] = values[idx].trim();
+                });
+
+                // Map common column name variations
+                const caseData = {
+                    category: row.patient_age_category || row.age_category || row.category || '',
+                    accession: parseDateTime(row.accession_datetime || row.accession_date || row.accession),
+                    flowOrdered: (row.flow_ordered || row.flow || 'N').toUpperCase() === 'Y',
+                    flowResult: parseDateTime(row.flow_result_datetime || row.flow_result_date || row.flow_result),
+                    signout: parseDateTime(row.signout_datetime || row.signout_date || row.signout || row.sign_out_datetime),
+                    amended: (row.amendment_flag || row.amended || 'N').toUpperCase() === 'Y',
+                    amendmentCount: parseInt(row.amendment_count) || 0,
+                    outlierDriver: row.outlier_driver || ''
+                };
+
+                // Validate required fields
+                if (!caseData.category || !caseData.accession || !caseData.signout) continue;
+
+                // Normalize category
+                caseData.category = caseData.category.toLowerCase().includes('ped') ? 'Pediatric' : 'Adult';
+
+                // Calculate derived fields
+                caseData.tatDays = (caseData.signout - caseData.accession) / (1000 * 60 * 60 * 24);
+
+                if (caseData.flowOrdered && caseData.flowResult) {
+                    caseData.flowDays = (caseData.flowResult - caseData.accession) / (1000 * 60 * 60 * 24);
+                    caseData.lagDays = (caseData.signout - caseData.flowResult) / (1000 * 60 * 60 * 24);
+                }
+
+                caseData.isOutlier = caseData.tatDays > config.outlierThreshold;
+
+                cases.push(caseData);
+            }
+
+            return cases;
+        }
+
+        // Parse CSV line handling quoted values
+        function parseCSVLine(line) {
+            const values = [];
+            let current = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    values.push(current);
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            values.push(current);
+            return values;
+        }
+
+        // Parse datetime string
+        function parseDateTime(str) {
+            if (!str) return null;
+            const date = new Date(str);
+            return isNaN(date.getTime()) ? null : date;
+        }
+
+        // Calculate metrics for a category
+        function calculateMetrics(cases, category) {
+            const filtered = cases.filter(c => c.category === category);
+
+            if (filtered.length === 0) {
+                return {
+                    volume: 0,
+                    tatMedian: 0, tatP90: 0, tatPct: 0, tatStatus: 'good',
+                    flowMedian: 0, flowP90: 0,
+                    lagMedian: 0, lagP90: 0, lagPct: 0, lagStatus: 'good',
+                    amended: 0, amendedRate: 0, outliers: 0,
+                    drivers: { flow: 0, lag: 0, proc: 0, other: 0 }
+                };
+            }
+
+            const volume = filtered.length;
+
+            // TAT metrics
+            const tatValues = filtered.map(c => c.tatDays).filter(v => v != null);
+            const tatMedian = median(tatValues);
+            const tatP90 = percentile(tatValues, 90);
+            const tatWithinTarget = tatValues.filter(t => t <= config.tatTarget).length;
+            const tatPct = tatValues.length ? (tatWithinTarget / tatValues.length * 100) : 0;
+
+            // Flow metrics
+            const flowCases = filtered.filter(c => c.flowOrdered && c.flowDays != null);
+            const flowValues = flowCases.map(c => c.flowDays);
+            const flowMedian = median(flowValues);
+            const flowP90 = percentile(flowValues, 90);
+
+            // Lag metrics
+            const lagCases = filtered.filter(c => c.flowOrdered && c.lagDays != null);
+            const lagValues = lagCases.map(c => c.lagDays);
+            const lagMedian = median(lagValues);
+            const lagP90 = percentile(lagValues, 90);
+            const lagWithinTarget = lagValues.filter(t => t <= config.lagTarget).length;
+            const lagPct = lagValues.length ? (lagWithinTarget / lagValues.length * 100) : 0;
+
+            // Quality metrics
+            const amended = filtered.filter(c => c.amended).length;
+            const amendedRate = (amended / volume * 100);
+            const outlierCases = filtered.filter(c => c.isOutlier);
+            const outliers = outlierCases.length;
+
+            // Outlier drivers
+            const drivers = { flow: 0, lag: 0, proc: 0, other: 0 };
+            outlierCases.forEach(c => {
+                if (c.outlierDriver) {
+                    const d = c.outlierDriver.toLowerCase();
+                    if (d.includes('flow')) drivers.flow++;
+                    else if (d.includes('lag') || d.includes('internal')) drivers.lag++;
+                    else if (d.includes('proc') || d.includes('tech')) drivers.proc++;
+                    else drivers.other++;
+                } else {
+                    // Auto-classify
+                    if (c.flowDays && c.flowDays > 4 && (!c.lagDays || c.lagDays <= config.lagTarget)) {
+                        drivers.flow++;
+                    } else if (c.lagDays && c.lagDays > config.lagTarget) {
+                        drivers.lag++;
+                    } else {
+                        drivers.other++;
+                    }
+                }
+            });
+
+            return {
+                volume,
+                tatMedian: round(tatMedian, 1),
+                tatP90: round(tatP90, 1),
+                tatPct: round(tatPct, 1),
+                tatStatus: getStatus(tatPct),
+                flowMedian: round(flowMedian, 1),
+                flowP90: round(flowP90, 1),
+                lagMedian: round(lagMedian, 1),
+                lagP90: round(lagP90, 1),
+                lagPct: round(lagPct, 1),
+                lagStatus: getStatus(lagPct),
+                amended,
+                amendedRate: round(amendedRate, 1),
+                outliers,
+                drivers
+            };
+        }
+
+        function calculateAllMetrics(cases) {
+            return {
+                adult: calculateMetrics(cases, 'Adult'),
+                peds: calculateMetrics(cases, 'Pediatric'),
+                total: cases.length
+            };
+        }
+
+        // Helper functions
+        function median(arr) {
+            if (!arr.length) return 0;
+            const sorted = [...arr].sort((a, b) => a - b);
+            const mid = Math.floor(sorted.length / 2);
+            return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+        }
+
+        function percentile(arr, p) {
+            if (!arr.length) return 0;
+            const sorted = [...arr].sort((a, b) => a - b);
+            const k = (sorted.length - 1) * p / 100;
+            const f = Math.floor(k);
+            const c = Math.min(f + 1, sorted.length - 1);
+            return sorted[f] + (sorted[c] - sorted[f]) * (k - f);
+        }
+
+        function round(num, decimals) {
+            return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
+        }
+
+        function getStatus(pct) {
+            if (pct >= config.targetMetThreshold) return 'good';
+            if (pct >= config.nearTargetThreshold) return 'warning';
+            return 'alert';
+        }
+
+        // Render dashboard
+        function renderDashboard(metrics) {
+            const period = document.getElementById('report-period').value || 'Report Period';
+            const reviewer = document.getElementById('reviewer-name').value || '[Reviewer]';
+            const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+            dashboard.innerHTML = `
+                <div class="header">
+                    <h1>Bone Marrow Service Operations Dashboard</h1>
+                    <div class="subtitle">Hematopathology Section | DMC/WSU</div>
+                    <div class="period">${period}</div>
+                </div>
+
+                <div class="main-content">
+                    ${renderColumn('Adult', 'adult', metrics.adult)}
+                    ${renderColumn('Pediatric', 'pediatric', metrics.peds)}
+                </div>
+
+                <div class="quality-section">
+                    <div class="section-title">TAT Outlier Analysis (Combined)</div>
+                    <table class="outlier-table">
+                        <tr>
+                            <th>Driver Category</th>
+                            <th>Adult</th>
+                            <th>Pediatric</th>
+                            <th>Total</th>
+                        </tr>
+                        <tr>
+                            <td>Flow Cytometry Delay (external)</td>
+                            <td>${metrics.adult.drivers.flow}</td>
+                            <td>${metrics.peds.drivers.flow}</td>
+                            <td>${metrics.adult.drivers.flow + metrics.peds.drivers.flow}</td>
+                        </tr>
+                        <tr>
+                            <td>Internal Service Lag</td>
+                            <td>${metrics.adult.drivers.lag}</td>
+                            <td>${metrics.peds.drivers.lag}</td>
+                            <td>${metrics.adult.drivers.lag + metrics.peds.drivers.lag}</td>
+                        </tr>
+                        <tr>
+                            <td>Processing/Technical Issues</td>
+                            <td>${metrics.adult.drivers.proc}</td>
+                            <td>${metrics.peds.drivers.proc}</td>
+                            <td>${metrics.adult.drivers.proc + metrics.peds.drivers.proc}</td>
+                        </tr>
+                        <tr>
+                            <td>Other/Multiple Factors</td>
+                            <td>${metrics.adult.drivers.other}</td>
+                            <td>${metrics.peds.drivers.other}</td>
+                            <td>${metrics.adult.drivers.other + metrics.peds.drivers.other}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="footer">
+                    <div class="legend">
+                        <strong>Performance:</strong>
+                        <div class="legend-item"><div class="legend-dot good"></div> Target Met (≥90%)</div>
+                        <div class="legend-item"><div class="legend-dot warning"></div> Near Target (75-90%)</div>
+                        <div class="legend-item"><div class="legend-dot alert"></div> Below Target (<75%)</div>
+                    </div>
+                    <div>Prepared: ${today} | Reviewed by: ${reviewer}</div>
+                </div>
+
+                <div class="phi-notice">
+                    This report contains aggregate operational data only. No Protected Health Information (PHI) is included.
+                </div>
+            `;
+        }
+
+        function renderColumn(title, className, m) {
+            return `
+                <div class="column ${className}">
+                    <div class="column-header">${title.toUpperCase()} BONE MARROW</div>
+
+                    <div class="section">
+                        <div class="section-title">Volume</div>
+                        <div class="metric-row">
+                            <span class="metric-label">Total Cases</span>
+                            <span class="metric-value large">${m.volume}</span>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Primary TAT (Accession to Sign-out)</div>
+                        <div class="metric-row">
+                            <span class="metric-label">Median</span>
+                            <span class="metric-value">${m.tatMedian} days</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">90th Percentile</span>
+                            <span class="metric-value">${m.tatP90} days</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">% Within Target (${config.tatTarget} days)</span>
+                            <span class="metric-value ${m.tatStatus}">${m.tatPct}%</span>
+                        </div>
+                        <div class="bar-chart">
+                            <div class="bar-fill ${m.tatStatus}" style="width: ${Math.min(m.tatPct, 100)}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Flow Dependency (Accession to Flow Result)</div>
+                        <div class="metric-row">
+                            <span class="metric-label">Median</span>
+                            <span class="metric-value">${m.flowMedian} days</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">90th Percentile</span>
+                            <span class="metric-value">${m.flowP90} days</span>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Service Responsiveness (Flow to Sign-out)</div>
+                        <div class="metric-row">
+                            <span class="metric-label">Median Lag</span>
+                            <span class="metric-value">${m.lagMedian} days</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">90th Percentile Lag</span>
+                            <span class="metric-value">${m.lagP90} days</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">% Within Target (${config.lagTarget} days)</span>
+                            <span class="metric-value ${m.lagStatus}">${m.lagPct}%</span>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Quality Indicators</div>
+                        <div class="metric-row">
+                            <span class="metric-label">Amended/Corrected Reports</span>
+                            <span class="metric-value">${m.amended} (${m.amendedRate}%)</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">TAT Outliers (>${config.outlierThreshold} days)</span>
+                            <span class="metric-value">${m.outliers}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Download CSV template
+        function downloadTemplate() {
+            const template = `patient_age_category,specimen_type,accession_datetime,flow_ordered,flow_result_datetime,signout_datetime,amendment_flag,amendment_count,outlier_driver
+Adult,Bone Marrow,2025-01-02 09:30,Y,2025-01-04 14:00,2025-01-05 10:15,N,0,
+Adult,Bone Marrow,2025-01-03 10:00,Y,2025-01-05 11:30,2025-01-06 09:00,N,0,
+Pediatric,Bone Marrow,2025-01-03 11:15,Y,2025-01-05 15:45,2025-01-06 14:30,N,0,
+Adult,Bone Marrow,2025-01-04 08:45,N,,2025-01-05 16:00,N,0,
+Pediatric,Bone Marrow,2025-01-05 09:00,Y,2025-01-08 10:00,2025-01-09 11:30,N,0,Flow Delay`;
+
+            const blob = new Blob([template], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'bone_marrow_template.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Error handling
+        function showError(msg) {
+            errorMessage.textContent = msg;
+            errorMessage.classList.add('visible');
+        }
+
+        function hideError() {
+            errorMessage.classList.remove('visible');
+        }
+    </script>
 </body>
 </html>
-<!-- Updated Mon Jan 26 01:57:37 UTC 2026 -->
-<!-- Redeploy Mon Jan 26 02:02:20 UTC 2026 -->
