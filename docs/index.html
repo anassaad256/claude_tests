@@ -17,147 +17,109 @@
             min-height: 100vh;
         }
 
-        /* Upload Screen */
-        .upload-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 40px 20px;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
-        .upload-screen.hidden {
-            display: none;
-        }
-
-        .upload-container {
+        /* Header */
+        .page-header {
             background: white;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            padding: 40px;
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .upload-container h1 {
-            color: #2c5282;
-            margin-bottom: 8px;
-            font-size: 24px;
-        }
-
-        .upload-container .subtitle {
-            color: #718096;
-            margin-bottom: 30px;
-        }
-
-        .drop-zone {
-            border: 2px dashed #cbd5e0;
-            border-radius: 8px;
-            padding: 40px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px 30px;
             margin-bottom: 20px;
-        }
-
-        .drop-zone:hover, .drop-zone.drag-over {
-            border-color: #3182ce;
-            background: #ebf8ff;
-        }
-
-        .drop-zone-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
-        }
-
-        .drop-zone-text {
-            color: #4a5568;
-            margin-bottom: 10px;
-        }
-
-        .drop-zone-hint {
-            color: #a0aec0;
-            font-size: 13px;
-        }
-
-        #file-input {
-            display: none;
-        }
-
-        .config-section {
-            text-align: left;
-            margin-top: 25px;
-            padding-top: 25px;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .config-section h3 {
-            color: #4a5568;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-
-        .config-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
             gap: 15px;
         }
 
-        .config-field {
+        .page-header h1 {
+            color: #2c5282;
+            font-size: 22px;
+        }
+
+        .page-header .subtitle {
+            color: #718096;
+            font-size: 13px;
+        }
+
+        .status-bar {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 13px;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #48bb78;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.error {
+            background: #fc8181;
+            animation: none;
+        }
+
+        .status-dot.loading {
+            background: #ecc94b;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Controls */
+        .controls {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            align-items: end;
+        }
+
+        .control-group {
             display: flex;
             flex-direction: column;
+            gap: 5px;
         }
 
-        .config-field label {
+        .control-group label {
             font-size: 12px;
             color: #718096;
-            margin-bottom: 5px;
+            font-weight: 500;
         }
 
-        .config-field input, .config-field select {
-            padding: 8px 12px;
+        .control-group input, .control-group select {
+            padding: 10px 12px;
             border: 1px solid #e2e8f0;
             border-radius: 6px;
             font-size: 14px;
         }
 
-        .config-field input:focus, .config-field select:focus {
+        .control-group input:focus, .control-group select:focus {
             outline: none;
             border-color: #3182ce;
-        }
-
-        .template-link {
-            margin-top: 20px;
-            font-size: 13px;
-        }
-
-        .template-link a {
-            color: #3182ce;
-            text-decoration: none;
-        }
-
-        .template-link a:hover {
-            text-decoration: underline;
-        }
-
-        /* Dashboard Screen */
-        .dashboard-screen {
-            display: none;
-            padding: 20px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .dashboard-screen.visible {
-            display: block;
-        }
-
-        .dashboard-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
         }
 
         .btn {
@@ -188,158 +150,149 @@
             background: #cbd5e0;
         }
 
-        .btn-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        /* Dashboard Styles */
-        @media print {
-            .dashboard-actions, .upload-screen {
-                display: none !important;
-            }
-            .dashboard-screen {
-                display: block !important;
-                padding: 0;
-            }
-            body {
-                background: white;
-            }
-        }
-
-        @page {
-            size: letter;
-            margin: 0.5in;
-        }
-
-        .dashboard {
+        /* Setup Section */
+        .setup-section {
             background: white;
-            border-radius: 8px;
+            border-radius: 12px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 25px;
+            padding: 30px;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
-        .header {
-            text-align: center;
-            border-bottom: 3px solid #2c5282;
-            padding-bottom: 10px;
+        .setup-section h2 {
+            color: #2c5282;
             margin-bottom: 15px;
         }
 
-        .header h1 {
-            font-size: 18px;
-            color: #2c5282;
-            margin-bottom: 4px;
+        .setup-section p {
+            color: #718096;
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
 
-        .header .subtitle {
-            font-size: 13px;
-            color: #666;
-        }
-
-        .header .period {
+        .setup-section input {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
             font-size: 14px;
-            font-weight: 600;
-            color: #2c5282;
-            margin-top: 5px;
+            margin-bottom: 15px;
         }
 
-        .main-content {
-            display: flex;
-            gap: 20px;
-        }
-
-        .column {
-            flex: 1;
-            border: 2px solid #e2e8f0;
+        .setup-instructions {
+            text-align: left;
+            background: #f7fafc;
+            padding: 20px;
             border-radius: 8px;
-            overflow: hidden;
+            margin-top: 20px;
+            font-size: 13px;
         }
 
-        .column.adult {
+        .setup-instructions ol {
+            margin-left: 20px;
+        }
+
+        .setup-instructions li {
+            margin-bottom: 8px;
+            color: #4a5568;
+        }
+
+        .setup-instructions code {
+            background: #edf2f7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: none;
+        }
+
+        .dashboard-grid.visible {
+            display: block;
+        }
+
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Metric Cards */
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
             border-top: 4px solid #3182ce;
         }
 
-        .column.pediatric {
-            border-top: 4px solid #38a169;
+        .metric-card.adult {
+            border-top-color: #3182ce;
         }
 
-        .column-header {
-            padding: 10px 15px;
-            font-weight: 700;
+        .metric-card.pediatric {
+            border-top-color: #38a169;
+        }
+
+        .metric-card h3 {
             font-size: 14px;
-            text-align: center;
-        }
-
-        .column.adult .column-header {
-            background: #ebf8ff;
-            color: #2c5282;
-        }
-
-        .column.pediatric .column-header {
-            background: #f0fff4;
-            color: #276749;
-        }
-
-        .section {
-            padding: 12px 15px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .section:last-child {
-            border-bottom: none;
-        }
-
-        .section-title {
-            font-size: 11px;
-            font-weight: 600;
             color: #718096;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .metric-card.adult h3 {
+            color: #2c5282;
+        }
+
+        .metric-card.pediatric h3 {
+            color: #276749;
         }
 
         .metric-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 4px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .metric-row:last-child {
+            border-bottom: none;
         }
 
         .metric-label {
-            font-size: 12px;
+            font-size: 13px;
             color: #4a5568;
         }
 
         .metric-value {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             color: #2d3748;
         }
 
         .metric-value.large {
-            font-size: 24px;
+            font-size: 28px;
             color: #2c5282;
         }
 
-        .metric-value.good {
-            color: #38a169;
-        }
-
-        .metric-value.warning {
-            color: #d69e2e;
-        }
-
-        .metric-value.alert {
-            color: #e53e3e;
-        }
+        .metric-value.good { color: #38a169; }
+        .metric-value.warning { color: #d69e2e; }
+        .metric-value.alert { color: #e53e3e; }
 
         .bar-chart {
             height: 8px;
             background: #e2e8f0;
             border-radius: 4px;
             overflow: hidden;
-            margin-top: 5px;
+            margin-top: 8px;
         }
 
         .bar-fill {
@@ -352,248 +305,548 @@
         .bar-fill.warning { background: #ecc94b; }
         .bar-fill.alert { background: #fc8181; }
 
-        .quality-section {
-            background: #fafafa;
-            margin-top: 15px;
-            border-radius: 8px;
-            padding: 15px;
-            border: 1px solid #e2e8f0;
+        /* Pathologist Section */
+        .pathologist-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
         }
 
-        .quality-section .section-title {
+        .pathologist-section h3 {
+            font-size: 14px;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+
+        .pathologist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .pathologist-card {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 15px;
+            border-left: 4px solid #3182ce;
+        }
+
+        .pathologist-name {
+            font-weight: 600;
+            color: #2d3748;
             margin-bottom: 10px;
         }
 
-        .outlier-table {
-            width: 100%;
-            border-collapse: collapse;
+        .pathologist-stat {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            padding: 4px 0;
+        }
+
+        /* Pending Cases Table */
+        .pending-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .pending-section h3 {
+            font-size: 14px;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pending-count {
+            background: #e53e3e;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 12px;
             font-size: 12px;
         }
 
-        .outlier-table th, .outlier-table td {
-            padding: 6px 10px;
+        .pending-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .pending-table th {
             text-align: left;
+            padding: 12px 10px;
+            background: #f7fafc;
+            color: #4a5568;
+            font-weight: 600;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .pending-table td {
+            padding: 12px 10px;
             border-bottom: 1px solid #e2e8f0;
         }
 
-        .outlier-table th {
-            font-weight: 600;
-            color: #4a5568;
+        .pending-table tr:hover {
             background: #f7fafc;
         }
 
-        .footer {
-            margin-top: 15px;
-            padding-top: 10px;
-            border-top: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-between;
+        .late-flag {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 2px 8px;
+            border-radius: 4px;
             font-size: 11px;
-            color: #718096;
+            font-weight: 600;
         }
 
-        .legend {
-            display: flex;
-            gap: 15px;
-            align-items: center;
+        .on-time-flag {
+            background: #c6f6d5;
+            color: #276749;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
         }
 
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .legend-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-
-        .legend-dot.good { background: #48bb78; }
-        .legend-dot.warning { background: #ecc94b; }
-        .legend-dot.alert { background: #fc8181; }
-
-        .phi-notice {
+        /* Footer */
+        .footer {
             text-align: center;
-            font-size: 10px;
+            padding: 20px;
             color: #a0aec0;
-            margin-top: 10px;
-            font-style: italic;
+            font-size: 12px;
         }
 
-        /* Error state */
-        .error-message {
+        /* Print Styles */
+        @media print {
+            body { background: white; }
+            .controls, .setup-section, .page-header .status-bar { display: none !important; }
+            .metric-card, .pending-section, .pathologist-section {
+                box-shadow: none;
+                border: 1px solid #e2e8f0;
+            }
+        }
+
+        /* Error/Loading states */
+        .error-banner {
             background: #fff5f5;
             border: 1px solid #fc8181;
             color: #c53030;
-            padding: 15px;
+            padding: 15px 20px;
             border-radius: 8px;
-            margin-top: 15px;
+            margin-bottom: 20px;
             display: none;
         }
 
-        .error-message.visible {
+        .error-banner.visible {
             display: block;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .loading-overlay.visible {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e2e8f0;
+            border-top-color: #3182ce;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #718096;
         }
     </style>
 </head>
 <body>
-    <!-- Upload Screen -->
-    <div class="upload-screen" id="upload-screen">
-        <div class="upload-container">
-            <h1>Bone Marrow Service Dashboard</h1>
-            <p class="subtitle">Hematopathology Operations Metrics</p>
-
-            <div class="drop-zone" id="drop-zone">
-                <div class="drop-zone-icon">📊</div>
-                <p class="drop-zone-text">Drop your CSV file here or click to upload</p>
-                <p class="drop-zone-hint">Export from CoPath with case data (no PHI)</p>
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1>Bone Marrow Service Operations Dashboard</h1>
+                <div class="subtitle">Hematopathology Section | DMC/WSU</div>
             </div>
-            <input type="file" id="file-input" accept=".csv">
+            <div class="status-bar">
+                <div class="status-indicator">
+                    <div class="status-dot" id="status-dot"></div>
+                    <span id="status-text">Connecting...</span>
+                </div>
+                <span id="last-updated"></span>
+            </div>
+        </div>
 
-            <div class="config-section">
-                <h3>Dashboard Settings</h3>
-                <div class="config-grid">
-                    <div class="config-field">
-                        <label>Report Period</label>
-                        <input type="text" id="report-period" placeholder="e.g., January 2025">
-                    </div>
-                    <div class="config-field">
-                        <label>Reviewer Name</label>
-                        <input type="text" id="reviewer-name" placeholder="e.g., Dr. Smith">
-                    </div>
-                    <div class="config-field">
-                        <label>TAT Target (days)</label>
-                        <input type="number" id="tat-target" value="3" min="1" max="14">
-                    </div>
-                    <div class="config-field">
-                        <label>Lag Target (days)</label>
-                        <input type="number" id="lag-target" value="1" min="0.5" max="7" step="0.5">
-                    </div>
+        <!-- Error Banner -->
+        <div class="error-banner" id="error-banner"></div>
+
+        <!-- Setup Section (shown when no sheet URL) -->
+        <div class="setup-section" id="setup-section">
+            <h2>Connect Google Sheet</h2>
+            <p>Enter your published Google Sheet URL to connect the dashboard.</p>
+
+            <input type="text" id="sheet-url" placeholder="Paste your Google Sheet published CSV URL here">
+            <br>
+            <button class="btn btn-primary" id="connect-btn">Connect Sheet</button>
+
+            <div class="setup-instructions">
+                <strong>Setup Instructions:</strong>
+                <ol>
+                    <li>Open your Google Sheet with bone marrow case data</li>
+                    <li>Go to <strong>File → Share → Publish to web</strong></li>
+                    <li>Select the sheet tab and choose <strong>Comma-separated values (.csv)</strong></li>
+                    <li>Click <strong>Publish</strong> and copy the URL</li>
+                    <li>Paste the URL above and click Connect</li>
+                </ol>
+                <p style="margin-top: 15px;"><strong>Required columns:</strong></p>
+                <code>case_number, patient_age_category, accession_date, receipt_date, flow_result_date, signout_date, pathologist, amendment_flag</code>
+                <p style="margin-top: 10px; color: #718096;">
+                    Dates should be in format: MM/DD/YYYY or YYYY-MM-DD<br>
+                    patient_age_category: "Adult" or "Pediatric"<br>
+                    pathologist: "Dr. Schultz" or "Dr. Dewar"<br>
+                    Leave signout_date blank for pending cases
+                </p>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls" id="controls" style="display: none;">
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label>Date Range</label>
+                    <select id="date-range">
+                        <option value="30">Last 30 Days</option>
+                        <option value="60">Last 60 Days</option>
+                        <option value="90">Last 90 Days</option>
+                        <option value="180">Last 6 Months</option>
+                        <option value="365">Last Year</option>
+                        <option value="custom">Custom Range</option>
+                    </select>
+                </div>
+                <div class="control-group" id="custom-start-group" style="display: none;">
+                    <label>Start Date</label>
+                    <input type="date" id="custom-start">
+                </div>
+                <div class="control-group" id="custom-end-group" style="display: none;">
+                    <label>End Date</label>
+                    <input type="date" id="custom-end">
+                </div>
+                <div class="control-group">
+                    <label>Pathologist Filter</label>
+                    <select id="pathologist-filter">
+                        <option value="all">All Pathologists</option>
+                        <option value="Dr. Schultz">Dr. Schultz</option>
+                        <option value="Dr. Dewar">Dr. Dewar</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-primary" id="refresh-btn">↻ Refresh Now</button>
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-secondary" id="print-btn">Print Dashboard</button>
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-secondary" id="disconnect-btn">Disconnect Sheet</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid" id="dashboard-grid">
+            <!-- Metrics Row -->
+            <div class="metrics-row" id="metrics-row">
+                <!-- Cards will be injected here -->
+            </div>
+
+            <!-- Pathologist Breakdown -->
+            <div class="pathologist-section" id="pathologist-section">
+                <h3>Pathologist Workload</h3>
+                <div class="pathologist-grid" id="pathologist-grid">
+                    <!-- Pathologist cards injected here -->
                 </div>
             </div>
 
-            <div class="template-link">
-                <a href="#" id="download-template">Download CSV template</a>
+            <!-- Pending Cases -->
+            <div class="pending-section" id="pending-section">
+                <h3>
+                    Pending Cases
+                    <span class="pending-count" id="pending-count">0</span>
+                </h3>
+                <table class="pending-table">
+                    <thead>
+                        <tr>
+                            <th>Case #</th>
+                            <th>Category</th>
+                            <th>Accession Date</th>
+                            <th>Days Pending</th>
+                            <th>Receipt</th>
+                            <th>Flow</th>
+                            <th>Pathologist</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pending-tbody">
+                    </tbody>
+                </table>
+                <div class="no-data" id="no-pending" style="display: none;">
+                    No pending cases
+                </div>
             </div>
+        </div>
 
-            <div class="error-message" id="error-message"></div>
+        <!-- Footer -->
+        <div class="footer">
+            Turnaround times calculated using business days only (excludes weekends and holidays).<br>
+            Data refreshes automatically every hour. No PHI is stored or transmitted.
         </div>
     </div>
 
-    <!-- Dashboard Screen -->
-    <div class="dashboard-screen" id="dashboard-screen">
-        <div class="dashboard-actions">
-            <button class="btn btn-secondary" id="back-btn">← Upload New File</button>
-            <div class="btn-group">
-                <button class="btn btn-primary" id="print-btn">Print / Save PDF</button>
-            </div>
-        </div>
-
-        <div class="dashboard" id="dashboard">
-            <!-- Dashboard content will be injected here -->
-        </div>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
     </div>
 
     <script>
-        // Configuration
-        let config = {
-            tatTarget: 3,
-            lagTarget: 1,
-            outlierThreshold: 7,
-            targetMetThreshold: 90,
-            nearTargetThreshold: 75
+        // ============ CONFIGURATION ============
+        const CONFIG = {
+            // TAT Targets (business days)
+            TARGET_RECEIPT: 1,      // Accession to Receipt
+            TARGET_FLOW: 2,         // Accession to Flow Result
+            TARGET_SIGNOUT: 3,      // Accession to Sign-out
+
+            // Performance thresholds
+            TARGET_MET_PCT: 90,
+            NEAR_TARGET_PCT: 75,
+
+            // Refresh interval (1 hour in ms)
+            REFRESH_INTERVAL: 60 * 60 * 1000,
+
+            // Holidays (no work days)
+            HOLIDAYS: [
+                // 2026
+                '2026-01-01', // New Year's Day
+                '2026-05-25', // Memorial Day
+                '2026-07-03', // Independence Day (observed)
+                '2026-09-07', // Labor Day
+                '2026-11-26', // Thanksgiving Day
+                '2026-12-25', // Christmas Day
+                // 2027
+                '2027-01-01', // New Year's Day
+                '2027-05-31', // Memorial Day
+                '2027-07-05', // Independence Day (observed)
+                '2027-09-06', // Labor Day
+                '2027-11-25', // Thanksgiving Day
+                '2027-12-24', // Christmas Day (observed)
+                // 2028
+                '2028-01-01', // New Year's Day
+                '2028-05-29', // Memorial Day
+                '2028-07-04', // Independence Day
+                '2028-09-04', // Labor Day
+                '2028-11-23', // Thanksgiving Day
+                '2028-12-25', // Christmas Day
+            ]
         };
 
-        // DOM Elements
-        const uploadScreen = document.getElementById('upload-screen');
-        const dashboardScreen = document.getElementById('dashboard-screen');
-        const dropZone = document.getElementById('drop-zone');
-        const fileInput = document.getElementById('file-input');
-        const errorMessage = document.getElementById('error-message');
-        const dashboard = document.getElementById('dashboard');
+        // ============ STATE ============
+        let sheetUrl = localStorage.getItem('bm_sheet_url') || '';
+        let allCases = [];
+        let refreshTimer = null;
 
-        // Set default report period to previous month
-        const now = new Date();
-        const prevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-        document.getElementById('report-period').value = prevMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        // ============ DOM ELEMENTS ============
+        const elements = {
+            setupSection: document.getElementById('setup-section'),
+            controls: document.getElementById('controls'),
+            dashboardGrid: document.getElementById('dashboard-grid'),
+            sheetUrlInput: document.getElementById('sheet-url'),
+            connectBtn: document.getElementById('connect-btn'),
+            disconnectBtn: document.getElementById('disconnect-btn'),
+            refreshBtn: document.getElementById('refresh-btn'),
+            printBtn: document.getElementById('print-btn'),
+            dateRange: document.getElementById('date-range'),
+            customStartGroup: document.getElementById('custom-start-group'),
+            customEndGroup: document.getElementById('custom-end-group'),
+            customStart: document.getElementById('custom-start'),
+            customEnd: document.getElementById('custom-end'),
+            pathologistFilter: document.getElementById('pathologist-filter'),
+            statusDot: document.getElementById('status-dot'),
+            statusText: document.getElementById('status-text'),
+            lastUpdated: document.getElementById('last-updated'),
+            errorBanner: document.getElementById('error-banner'),
+            loadingOverlay: document.getElementById('loading-overlay'),
+            metricsRow: document.getElementById('metrics-row'),
+            pathologistGrid: document.getElementById('pathologist-grid'),
+            pendingTbody: document.getElementById('pending-tbody'),
+            pendingCount: document.getElementById('pending-count'),
+            noPending: document.getElementById('no-pending')
+        };
 
-        // Event Listeners
-        dropZone.addEventListener('click', () => fileInput.click());
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('drag-over');
-        });
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('drag-over');
-        });
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('drag-over');
-            const file = e.dataTransfer.files[0];
-            if (file) processFile(file);
-        });
-        fileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) processFile(file);
-        });
+        // ============ INITIALIZATION ============
+        function init() {
+            // Event listeners
+            elements.connectBtn.addEventListener('click', connectSheet);
+            elements.disconnectBtn.addEventListener('click', disconnectSheet);
+            elements.refreshBtn.addEventListener('click', () => fetchData());
+            elements.printBtn.addEventListener('click', () => window.print());
+            elements.dateRange.addEventListener('change', handleDateRangeChange);
+            elements.pathologistFilter.addEventListener('change', () => renderDashboard());
+            elements.customStart.addEventListener('change', () => renderDashboard());
+            elements.customEnd.addEventListener('change', () => renderDashboard());
 
-        document.getElementById('back-btn').addEventListener('click', () => {
-            dashboardScreen.classList.remove('visible');
-            uploadScreen.classList.remove('hidden');
-        });
+            // Set default custom dates
+            const today = new Date();
+            const thirtyDaysAgo = new Date(today);
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+            elements.customEnd.value = formatDateForInput(today);
+            elements.customStart.value = formatDateForInput(thirtyDaysAgo);
 
-        document.getElementById('print-btn').addEventListener('click', () => {
-            window.print();
-        });
+            // Check if already connected
+            if (sheetUrl) {
+                showDashboard();
+                fetchData();
+                startAutoRefresh();
+            } else {
+                showSetup();
+            }
+        }
 
-        document.getElementById('download-template').addEventListener('click', (e) => {
-            e.preventDefault();
-            downloadTemplate();
-        });
+        // ============ UI STATE ============
+        function showSetup() {
+            elements.setupSection.style.display = 'block';
+            elements.controls.style.display = 'none';
+            elements.dashboardGrid.classList.remove('visible');
+            setStatus('disconnected', 'Not connected');
+        }
 
-        // Process uploaded file
-        function processFile(file) {
-            if (!file.name.endsWith('.csv')) {
-                showError('Please upload a CSV file');
+        function showDashboard() {
+            elements.setupSection.style.display = 'none';
+            elements.controls.style.display = 'block';
+            elements.dashboardGrid.classList.add('visible');
+        }
+
+        function showLoading(show) {
+            elements.loadingOverlay.classList.toggle('visible', show);
+        }
+
+        function showError(message) {
+            elements.errorBanner.textContent = message;
+            elements.errorBanner.classList.add('visible');
+            setStatus('error', 'Error');
+        }
+
+        function hideError() {
+            elements.errorBanner.classList.remove('visible');
+        }
+
+        function setStatus(status, text) {
+            elements.statusDot.className = 'status-dot ' + status;
+            elements.statusText.textContent = text;
+        }
+
+        function handleDateRangeChange() {
+            const isCustom = elements.dateRange.value === 'custom';
+            elements.customStartGroup.style.display = isCustom ? 'flex' : 'none';
+            elements.customEndGroup.style.display = isCustom ? 'flex' : 'none';
+            renderDashboard();
+        }
+
+        // ============ SHEET CONNECTION ============
+        function connectSheet() {
+            const url = elements.sheetUrlInput.value.trim();
+            if (!url) {
+                showError('Please enter a Google Sheet URL');
                 return;
             }
 
-            // Update config from inputs
-            config.tatTarget = parseFloat(document.getElementById('tat-target').value) || 3;
-            config.lagTarget = parseFloat(document.getElementById('lag-target').value) || 1;
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const csv = e.target.result;
-                    const cases = parseCSV(csv);
-
-                    if (cases.length === 0) {
-                        showError('No valid cases found in the CSV file. Make sure your CSV has columns: patient_age_category, accession_datetime, signout_datetime');
-                        return;
-                    }
-
-                    const metrics = calculateAllMetrics(cases);
-                    renderDashboard(metrics);
-
-                    uploadScreen.classList.add('hidden');
-                    dashboardScreen.classList.add('visible');
-                    hideError();
-                } catch (err) {
-                    showError('Error processing file: ' + err.message);
-                }
-            };
-            reader.readAsText(file);
+            sheetUrl = url;
+            localStorage.setItem('bm_sheet_url', url);
+            showDashboard();
+            fetchData();
+            startAutoRefresh();
         }
 
-        // Parse CSV
+        function disconnectSheet() {
+            sheetUrl = '';
+            localStorage.removeItem('bm_sheet_url');
+            allCases = [];
+            stopAutoRefresh();
+            showSetup();
+            hideError();
+        }
+
+        // ============ DATA FETCHING ============
+        async function fetchData() {
+            showLoading(true);
+            hideError();
+            setStatus('loading', 'Updating...');
+
+            try {
+                const response = await fetch(sheetUrl);
+                if (!response.ok) throw new Error('Failed to fetch sheet');
+
+                const csv = await response.text();
+                allCases = parseCSV(csv);
+
+                setStatus('connected', 'Connected');
+                elements.lastUpdated.textContent = 'Updated: ' + new Date().toLocaleTimeString();
+
+                renderDashboard();
+            } catch (err) {
+                showError('Failed to load data: ' + err.message + '. Check your sheet URL and make sure it\'s published.');
+                setStatus('error', 'Error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function startAutoRefresh() {
+            stopAutoRefresh();
+            refreshTimer = setInterval(fetchData, CONFIG.REFRESH_INTERVAL);
+        }
+
+        function stopAutoRefresh() {
+            if (refreshTimer) {
+                clearInterval(refreshTimer);
+                refreshTimer = null;
+            }
+        }
+
+        // ============ CSV PARSING ============
         function parseCSV(csv) {
             const lines = csv.trim().split('\n');
             if (lines.length < 2) return [];
 
-            const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/[^a-z0-9_]/g, '_'));
+            const headers = lines[0].split(',').map(h =>
+                h.trim().toLowerCase().replace(/[^a-z0-9_]/g, '_')
+            );
+
             const cases = [];
 
             for (let i = 1; i < lines.length; i++) {
@@ -605,33 +858,41 @@
                     row[h] = values[idx].trim();
                 });
 
-                // Map common column name variations
                 const caseData = {
-                    category: row.patient_age_category || row.age_category || row.category || '',
-                    accession: parseDateTime(row.accession_datetime || row.accession_date || row.accession),
-                    flowOrdered: (row.flow_ordered || row.flow || 'N').toUpperCase() === 'Y',
-                    flowResult: parseDateTime(row.flow_result_datetime || row.flow_result_date || row.flow_result),
-                    signout: parseDateTime(row.signout_datetime || row.signout_date || row.signout || row.sign_out_datetime),
-                    amended: (row.amendment_flag || row.amended || 'N').toUpperCase() === 'Y',
-                    amendmentCount: parseInt(row.amendment_count) || 0,
-                    outlierDriver: row.outlier_driver || ''
+                    caseNumber: row.case_number || row.case_ || row.casenumber || `Case-${i}`,
+                    category: normalizeCategory(row.patient_age_category || row.age_category || row.category),
+                    accessionDate: parseDate(row.accession_date || row.accession),
+                    receiptDate: parseDate(row.receipt_date || row.receipt),
+                    flowResultDate: parseDate(row.flow_result_date || row.flow_result || row.flow_date),
+                    signoutDate: parseDate(row.signout_date || row.sign_out_date || row.signout),
+                    pathologist: row.pathologist || row.attending || 'Unknown',
+                    amended: (row.amendment_flag || row.amended || 'N').toUpperCase() === 'Y'
                 };
 
-                // Validate required fields
-                if (!caseData.category || !caseData.accession || !caseData.signout) continue;
+                // Must have accession date
+                if (!caseData.accessionDate) continue;
 
-                // Normalize category
-                caseData.category = caseData.category.toLowerCase().includes('ped') ? 'Pediatric' : 'Adult';
+                // Calculate business day intervals
+                const today = new Date();
 
-                // Calculate derived fields
-                caseData.tatDays = (caseData.signout - caseData.accession) / (1000 * 60 * 60 * 24);
-
-                if (caseData.flowOrdered && caseData.flowResult) {
-                    caseData.flowDays = (caseData.flowResult - caseData.accession) / (1000 * 60 * 60 * 24);
-                    caseData.lagDays = (caseData.signout - caseData.flowResult) / (1000 * 60 * 60 * 24);
+                if (caseData.receiptDate) {
+                    caseData.daysToReceipt = calculateBusinessDays(caseData.accessionDate, caseData.receiptDate);
+                    caseData.receiptLate = caseData.daysToReceipt > CONFIG.TARGET_RECEIPT;
                 }
 
-                caseData.isOutlier = caseData.tatDays > config.outlierThreshold;
+                if (caseData.flowResultDate) {
+                    caseData.daysToFlow = calculateBusinessDays(caseData.accessionDate, caseData.flowResultDate);
+                    caseData.flowLate = caseData.daysToFlow > CONFIG.TARGET_FLOW;
+                }
+
+                if (caseData.signoutDate) {
+                    caseData.daysToSignout = calculateBusinessDays(caseData.accessionDate, caseData.signoutDate);
+                    caseData.signoutLate = caseData.daysToSignout > CONFIG.TARGET_SIGNOUT;
+                    caseData.isPending = false;
+                } else {
+                    caseData.isPending = true;
+                    caseData.daysPending = calculateBusinessDays(caseData.accessionDate, today);
+                }
 
                 cases.push(caseData);
             }
@@ -639,14 +900,12 @@
             return cases;
         }
 
-        // Parse CSV line handling quoted values
         function parseCSVLine(line) {
             const values = [];
             let current = '';
             let inQuotes = false;
 
-            for (let i = 0; i < line.length; i++) {
-                const char = line[i];
+            for (let char of line) {
                 if (char === '"') {
                     inQuotes = !inQuotes;
                 } else if (char === ',' && !inQuotes) {
@@ -660,106 +919,168 @@
             return values;
         }
 
-        // Parse datetime string
-        function parseDateTime(str) {
+        function parseDate(str) {
             if (!str) return null;
+
+            // Handle MM/DD/YYYY format
+            if (str.includes('/')) {
+                const parts = str.split('/');
+                if (parts.length === 3) {
+                    const month = parseInt(parts[0]) - 1;
+                    const day = parseInt(parts[1]);
+                    const year = parseInt(parts[2]);
+                    return new Date(year, month, day);
+                }
+            }
+
+            // Handle YYYY-MM-DD format
             const date = new Date(str);
             return isNaN(date.getTime()) ? null : date;
         }
 
-        // Calculate metrics for a category
+        function normalizeCategory(cat) {
+            if (!cat) return 'Adult';
+            return cat.toLowerCase().includes('ped') ? 'Pediatric' : 'Adult';
+        }
+
+        function formatDateForInput(date) {
+            return date.toISOString().split('T')[0];
+        }
+
+        // ============ BUSINESS DAYS CALCULATION ============
+        function calculateBusinessDays(startDate, endDate) {
+            if (!startDate || !endDate) return null;
+
+            let count = 0;
+            const current = new Date(startDate);
+            current.setHours(0, 0, 0, 0);
+
+            const end = new Date(endDate);
+            end.setHours(0, 0, 0, 0);
+
+            while (current < end) {
+                current.setDate(current.getDate() + 1);
+                if (isBusinessDay(current)) {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        function isBusinessDay(date) {
+            const day = date.getDay();
+            // Weekend check (0 = Sunday, 6 = Saturday)
+            if (day === 0 || day === 6) return false;
+
+            // Holiday check
+            const dateStr = date.toISOString().split('T')[0];
+            if (CONFIG.HOLIDAYS.includes(dateStr)) return false;
+
+            return true;
+        }
+
+        // ============ FILTERING ============
+        function getFilteredCases() {
+            let cases = [...allCases];
+
+            // Date range filter
+            const range = elements.dateRange.value;
+            let startDate, endDate = new Date();
+
+            if (range === 'custom') {
+                startDate = elements.customStart.value ? new Date(elements.customStart.value) : null;
+                endDate = elements.customEnd.value ? new Date(elements.customEnd.value) : new Date();
+            } else {
+                startDate = new Date();
+                startDate.setDate(startDate.getDate() - parseInt(range));
+            }
+
+            if (startDate) {
+                cases = cases.filter(c => c.accessionDate >= startDate);
+            }
+            cases = cases.filter(c => c.accessionDate <= endDate);
+
+            // Pathologist filter
+            const pathFilter = elements.pathologistFilter.value;
+            if (pathFilter !== 'all') {
+                cases = cases.filter(c => c.pathologist === pathFilter);
+            }
+
+            return cases;
+        }
+
+        // ============ METRICS CALCULATION ============
         function calculateMetrics(cases, category) {
-            const filtered = cases.filter(c => c.category === category);
+            const filtered = cases.filter(c => c.category === category && !c.isPending);
 
             if (filtered.length === 0) {
                 return {
                     volume: 0,
-                    tatMedian: 0, tatP90: 0, tatPct: 0, tatStatus: 'good',
-                    flowMedian: 0, flowP90: 0,
-                    lagMedian: 0, lagP90: 0, lagPct: 0, lagStatus: 'good',
-                    amended: 0, amendedRate: 0, outliers: 0,
-                    drivers: { flow: 0, lag: 0, proc: 0, other: 0 }
+                    receiptMedian: 0, receiptPct: 0,
+                    flowMedian: 0, flowPct: 0,
+                    signoutMedian: 0, signoutP90: 0, signoutPct: 0,
+                    amended: 0, amendedRate: 0, lateCount: 0
                 };
             }
 
             const volume = filtered.length;
 
-            // TAT metrics
-            const tatValues = filtered.map(c => c.tatDays).filter(v => v != null);
-            const tatMedian = median(tatValues);
-            const tatP90 = percentile(tatValues, 90);
-            const tatWithinTarget = tatValues.filter(t => t <= config.tatTarget).length;
-            const tatPct = tatValues.length ? (tatWithinTarget / tatValues.length * 100) : 0;
+            // Receipt metrics
+            const receiptValues = filtered.map(c => c.daysToReceipt).filter(v => v != null);
+            const receiptMedian = median(receiptValues);
+            const receiptOnTime = receiptValues.filter(v => v <= CONFIG.TARGET_RECEIPT).length;
+            const receiptPct = receiptValues.length ? (receiptOnTime / receiptValues.length * 100) : 0;
 
             // Flow metrics
-            const flowCases = filtered.filter(c => c.flowOrdered && c.flowDays != null);
-            const flowValues = flowCases.map(c => c.flowDays);
+            const flowValues = filtered.map(c => c.daysToFlow).filter(v => v != null);
             const flowMedian = median(flowValues);
-            const flowP90 = percentile(flowValues, 90);
+            const flowOnTime = flowValues.filter(v => v <= CONFIG.TARGET_FLOW).length;
+            const flowPct = flowValues.length ? (flowOnTime / flowValues.length * 100) : 0;
 
-            // Lag metrics
-            const lagCases = filtered.filter(c => c.flowOrdered && c.lagDays != null);
-            const lagValues = lagCases.map(c => c.lagDays);
-            const lagMedian = median(lagValues);
-            const lagP90 = percentile(lagValues, 90);
-            const lagWithinTarget = lagValues.filter(t => t <= config.lagTarget).length;
-            const lagPct = lagValues.length ? (lagWithinTarget / lagValues.length * 100) : 0;
+            // Signout metrics
+            const signoutValues = filtered.map(c => c.daysToSignout).filter(v => v != null);
+            const signoutMedian = median(signoutValues);
+            const signoutP90 = percentile(signoutValues, 90);
+            const signoutOnTime = signoutValues.filter(v => v <= CONFIG.TARGET_SIGNOUT).length;
+            const signoutPct = signoutValues.length ? (signoutOnTime / signoutValues.length * 100) : 0;
 
             // Quality metrics
             const amended = filtered.filter(c => c.amended).length;
-            const amendedRate = (amended / volume * 100);
-            const outlierCases = filtered.filter(c => c.isOutlier);
-            const outliers = outlierCases.length;
-
-            // Outlier drivers
-            const drivers = { flow: 0, lag: 0, proc: 0, other: 0 };
-            outlierCases.forEach(c => {
-                if (c.outlierDriver) {
-                    const d = c.outlierDriver.toLowerCase();
-                    if (d.includes('flow')) drivers.flow++;
-                    else if (d.includes('lag') || d.includes('internal')) drivers.lag++;
-                    else if (d.includes('proc') || d.includes('tech')) drivers.proc++;
-                    else drivers.other++;
-                } else {
-                    // Auto-classify
-                    if (c.flowDays && c.flowDays > 4 && (!c.lagDays || c.lagDays <= config.lagTarget)) {
-                        drivers.flow++;
-                    } else if (c.lagDays && c.lagDays > config.lagTarget) {
-                        drivers.lag++;
-                    } else {
-                        drivers.other++;
-                    }
-                }
-            });
+            const lateCount = filtered.filter(c => c.signoutLate).length;
 
             return {
                 volume,
-                tatMedian: round(tatMedian, 1),
-                tatP90: round(tatP90, 1),
-                tatPct: round(tatPct, 1),
-                tatStatus: getStatus(tatPct),
+                receiptMedian: round(receiptMedian, 1),
+                receiptPct: round(receiptPct, 1),
                 flowMedian: round(flowMedian, 1),
-                flowP90: round(flowP90, 1),
-                lagMedian: round(lagMedian, 1),
-                lagP90: round(lagP90, 1),
-                lagPct: round(lagPct, 1),
-                lagStatus: getStatus(lagPct),
+                flowPct: round(flowPct, 1),
+                signoutMedian: round(signoutMedian, 1),
+                signoutP90: round(signoutP90, 1),
+                signoutPct: round(signoutPct, 1),
                 amended,
-                amendedRate: round(amendedRate, 1),
-                outliers,
-                drivers
+                amendedRate: round(amended / volume * 100, 1),
+                lateCount
             };
         }
 
-        function calculateAllMetrics(cases) {
-            return {
-                adult: calculateMetrics(cases, 'Adult'),
-                peds: calculateMetrics(cases, 'Pediatric'),
-                total: cases.length
-            };
+        function calculatePathologistMetrics(cases) {
+            const pathologists = ['Dr. Schultz', 'Dr. Dewar'];
+            return pathologists.map(name => {
+                const pathCases = cases.filter(c => c.pathologist === name && !c.isPending);
+                const pending = cases.filter(c => c.pathologist === name && c.isPending);
+
+                return {
+                    name,
+                    completed: pathCases.length,
+                    pending: pending.length,
+                    medianTAT: median(pathCases.map(c => c.daysToSignout).filter(v => v != null)),
+                    lateCount: pathCases.filter(c => c.signoutLate).length
+                };
+            });
         }
 
-        // Helper functions
+        // ============ HELPER FUNCTIONS ============
         function median(arr) {
             if (!arr.length) return 0;
             const sorted = [...arr].sort((a, b) => a - b);
@@ -781,183 +1102,155 @@
         }
 
         function getStatus(pct) {
-            if (pct >= config.targetMetThreshold) return 'good';
-            if (pct >= config.nearTargetThreshold) return 'warning';
+            if (pct >= CONFIG.TARGET_MET_PCT) return 'good';
+            if (pct >= CONFIG.NEAR_TARGET_PCT) return 'warning';
             return 'alert';
         }
 
-        // Render dashboard
-        function renderDashboard(metrics) {
-            const period = document.getElementById('report-period').value || 'Report Period';
-            const reviewer = document.getElementById('reviewer-name').value || '[Reviewer]';
-            const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        function formatDate(date) {
+            if (!date) return '-';
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
 
-            dashboard.innerHTML = `
-                <div class="header">
-                    <h1>Bone Marrow Service Operations Dashboard</h1>
-                    <div class="subtitle">Hematopathology Section | DMC/WSU</div>
-                    <div class="period">${period}</div>
-                </div>
+        // ============ RENDERING ============
+        function renderDashboard() {
+            const cases = getFilteredCases();
 
-                <div class="main-content">
-                    ${renderColumn('Adult', 'adult', metrics.adult)}
-                    ${renderColumn('Pediatric', 'pediatric', metrics.peds)}
-                </div>
+            const adultMetrics = calculateMetrics(cases, 'Adult');
+            const pedsMetrics = calculateMetrics(cases, 'Pediatric');
+            const pathMetrics = calculatePathologistMetrics(cases);
+            const pendingCases = cases.filter(c => c.isPending).sort((a, b) => b.daysPending - a.daysPending);
 
-                <div class="quality-section">
-                    <div class="section-title">TAT Outlier Analysis (Combined)</div>
-                    <table class="outlier-table">
-                        <tr>
-                            <th>Driver Category</th>
-                            <th>Adult</th>
-                            <th>Pediatric</th>
-                            <th>Total</th>
-                        </tr>
-                        <tr>
-                            <td>Flow Cytometry Delay (external)</td>
-                            <td>${metrics.adult.drivers.flow}</td>
-                            <td>${metrics.peds.drivers.flow}</td>
-                            <td>${metrics.adult.drivers.flow + metrics.peds.drivers.flow}</td>
-                        </tr>
-                        <tr>
-                            <td>Internal Service Lag</td>
-                            <td>${metrics.adult.drivers.lag}</td>
-                            <td>${metrics.peds.drivers.lag}</td>
-                            <td>${metrics.adult.drivers.lag + metrics.peds.drivers.lag}</td>
-                        </tr>
-                        <tr>
-                            <td>Processing/Technical Issues</td>
-                            <td>${metrics.adult.drivers.proc}</td>
-                            <td>${metrics.peds.drivers.proc}</td>
-                            <td>${metrics.adult.drivers.proc + metrics.peds.drivers.proc}</td>
-                        </tr>
-                        <tr>
-                            <td>Other/Multiple Factors</td>
-                            <td>${metrics.adult.drivers.other}</td>
-                            <td>${metrics.peds.drivers.other}</td>
-                            <td>${metrics.adult.drivers.other + metrics.peds.drivers.other}</td>
-                        </tr>
-                    </table>
-                </div>
+            renderMetricCards(adultMetrics, pedsMetrics);
+            renderPathologistSection(pathMetrics);
+            renderPendingCases(pendingCases);
+        }
 
-                <div class="footer">
-                    <div class="legend">
-                        <strong>Performance:</strong>
-                        <div class="legend-item"><div class="legend-dot good"></div> Target Met (≥90%)</div>
-                        <div class="legend-item"><div class="legend-dot warning"></div> Near Target (75-90%)</div>
-                        <div class="legend-item"><div class="legend-dot alert"></div> Below Target (<75%)</div>
-                    </div>
-                    <div>Prepared: ${today} | Reviewed by: ${reviewer}</div>
-                </div>
-
-                <div class="phi-notice">
-                    This report contains aggregate operational data only. No Protected Health Information (PHI) is included.
-                </div>
+        function renderMetricCards(adult, peds) {
+            elements.metricsRow.innerHTML = `
+                ${renderMetricCard('Adult Bone Marrow', 'adult', adult)}
+                ${renderMetricCard('Pediatric Bone Marrow', 'pediatric', peds)}
             `;
         }
 
-        function renderColumn(title, className, m) {
+        function renderMetricCard(title, className, m) {
             return `
-                <div class="column ${className}">
-                    <div class="column-header">${title.toUpperCase()} BONE MARROW</div>
+                <div class="metric-card ${className}">
+                    <h3>${title}</h3>
 
-                    <div class="section">
-                        <div class="section-title">Volume</div>
-                        <div class="metric-row">
-                            <span class="metric-label">Total Cases</span>
-                            <span class="metric-value large">${m.volume}</span>
-                        </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Total Completed Cases</span>
+                        <span class="metric-value large">${m.volume}</span>
                     </div>
 
-                    <div class="section">
-                        <div class="section-title">Primary TAT (Accession to Sign-out)</div>
-                        <div class="metric-row">
-                            <span class="metric-label">Median</span>
-                            <span class="metric-value">${m.tatMedian} days</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">90th Percentile</span>
-                            <span class="metric-value">${m.tatP90} days</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">% Within Target (${config.tatTarget} days)</span>
-                            <span class="metric-value ${m.tatStatus}">${m.tatPct}%</span>
-                        </div>
-                        <div class="bar-chart">
-                            <div class="bar-fill ${m.tatStatus}" style="width: ${Math.min(m.tatPct, 100)}%"></div>
-                        </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Time to Receipt (median)</span>
+                        <span class="metric-value">${m.receiptMedian} days</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">% Within ${CONFIG.TARGET_RECEIPT} day target</span>
+                        <span class="metric-value ${getStatus(m.receiptPct)}">${m.receiptPct}%</span>
                     </div>
 
-                    <div class="section">
-                        <div class="section-title">Flow Dependency (Accession to Flow Result)</div>
-                        <div class="metric-row">
-                            <span class="metric-label">Median</span>
-                            <span class="metric-value">${m.flowMedian} days</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">90th Percentile</span>
-                            <span class="metric-value">${m.flowP90} days</span>
-                        </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Time to Flow (median)</span>
+                        <span class="metric-value">${m.flowMedian} days</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">% Within ${CONFIG.TARGET_FLOW} day target</span>
+                        <span class="metric-value ${getStatus(m.flowPct)}">${m.flowPct}%</span>
                     </div>
 
-                    <div class="section">
-                        <div class="section-title">Service Responsiveness (Flow to Sign-out)</div>
-                        <div class="metric-row">
-                            <span class="metric-label">Median Lag</span>
-                            <span class="metric-value">${m.lagMedian} days</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">90th Percentile Lag</span>
-                            <span class="metric-value">${m.lagP90} days</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">% Within Target (${config.lagTarget} days)</span>
-                            <span class="metric-value ${m.lagStatus}">${m.lagPct}%</span>
-                        </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Time to Sign-out (median)</span>
+                        <span class="metric-value">${m.signoutMedian} days</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Time to Sign-out (P90)</span>
+                        <span class="metric-value">${m.signoutP90} days</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">% Within ${CONFIG.TARGET_SIGNOUT} day target</span>
+                        <span class="metric-value ${getStatus(m.signoutPct)}">${m.signoutPct}%</span>
+                    </div>
+                    <div class="bar-chart">
+                        <div class="bar-fill ${getStatus(m.signoutPct)}" style="width: ${Math.min(m.signoutPct, 100)}%"></div>
                     </div>
 
-                    <div class="section">
-                        <div class="section-title">Quality Indicators</div>
-                        <div class="metric-row">
-                            <span class="metric-label">Amended/Corrected Reports</span>
-                            <span class="metric-value">${m.amended} (${m.amendedRate}%)</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">TAT Outliers (>${config.outlierThreshold} days)</span>
-                            <span class="metric-value">${m.outliers}</span>
-                        </div>
+                    <div class="metric-row" style="margin-top: 10px;">
+                        <span class="metric-label">Late Cases (>${CONFIG.TARGET_SIGNOUT} days)</span>
+                        <span class="metric-value ${m.lateCount > 0 ? 'alert' : 'good'}">${m.lateCount}</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Amended Reports</span>
+                        <span class="metric-value">${m.amended} (${m.amendedRate}%)</span>
                     </div>
                 </div>
             `;
         }
 
-        // Download CSV template
-        function downloadTemplate() {
-            const template = `patient_age_category,specimen_type,accession_datetime,flow_ordered,flow_result_datetime,signout_datetime,amendment_flag,amendment_count,outlier_driver
-Adult,Bone Marrow,2025-01-02 09:30,Y,2025-01-04 14:00,2025-01-05 10:15,N,0,
-Adult,Bone Marrow,2025-01-03 10:00,Y,2025-01-05 11:30,2025-01-06 09:00,N,0,
-Pediatric,Bone Marrow,2025-01-03 11:15,Y,2025-01-05 15:45,2025-01-06 14:30,N,0,
-Adult,Bone Marrow,2025-01-04 08:45,N,,2025-01-05 16:00,N,0,
-Pediatric,Bone Marrow,2025-01-05 09:00,Y,2025-01-08 10:00,2025-01-09 11:30,N,0,Flow Delay`;
-
-            const blob = new Blob([template], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'bone_marrow_template.csv';
-            a.click();
-            URL.revokeObjectURL(url);
+        function renderPathologistSection(pathMetrics) {
+            elements.pathologistGrid.innerHTML = pathMetrics.map(p => `
+                <div class="pathologist-card">
+                    <div class="pathologist-name">${p.name}</div>
+                    <div class="pathologist-stat">
+                        <span>Completed</span>
+                        <span>${p.completed}</span>
+                    </div>
+                    <div class="pathologist-stat">
+                        <span>Pending</span>
+                        <span style="color: ${p.pending > 0 ? '#e53e3e' : '#38a169'}">${p.pending}</span>
+                    </div>
+                    <div class="pathologist-stat">
+                        <span>Median TAT</span>
+                        <span>${p.medianTAT ? round(p.medianTAT, 1) + ' days' : '-'}</span>
+                    </div>
+                    <div class="pathologist-stat">
+                        <span>Late Cases</span>
+                        <span style="color: ${p.lateCount > 0 ? '#e53e3e' : '#38a169'}">${p.lateCount}</span>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        // Error handling
-        function showError(msg) {
-            errorMessage.textContent = msg;
-            errorMessage.classList.add('visible');
+        function renderPendingCases(pendingCases) {
+            elements.pendingCount.textContent = pendingCases.length;
+
+            if (pendingCases.length === 0) {
+                elements.pendingTbody.innerHTML = '';
+                elements.noPending.style.display = 'block';
+                return;
+            }
+
+            elements.noPending.style.display = 'none';
+            elements.pendingTbody.innerHTML = pendingCases.map(c => {
+                const isLate = c.daysPending > CONFIG.TARGET_SIGNOUT;
+                const receiptStatus = c.receiptDate ?
+                    (c.receiptLate ? '<span class="late-flag">Late</span>' : '<span class="on-time-flag">OK</span>') :
+                    '<span style="color:#718096">Pending</span>';
+                const flowStatus = c.flowResultDate ?
+                    (c.flowLate ? '<span class="late-flag">Late</span>' : '<span class="on-time-flag">OK</span>') :
+                    '<span style="color:#718096">Pending</span>';
+
+                return `
+                    <tr>
+                        <td><strong>${c.caseNumber}</strong></td>
+                        <td>${c.category}</td>
+                        <td>${formatDate(c.accessionDate)}</td>
+                        <td style="color: ${isLate ? '#e53e3e' : '#2d3748'}; font-weight: 600;">
+                            ${c.daysPending} days ${isLate ? '<span class="late-flag">LATE</span>' : ''}
+                        </td>
+                        <td>${receiptStatus}</td>
+                        <td>${flowStatus}</td>
+                        <td>${c.pathologist}</td>
+                        <td>${isLate ? '<span class="late-flag">Overdue</span>' : '<span class="on-time-flag">On Track</span>'}</td>
+                    </tr>
+                `;
+            }).join('');
         }
 
-        function hideError() {
-            errorMessage.classList.remove('visible');
-        }
+        // ============ START ============
+        init();
     </script>
 </body>
 </html>
