@@ -288,9 +288,9 @@
         }
 
         .metric-section-title {
-            font-size: 11px;
+            font-size: 14px;
             font-weight: 700;
-            color: #a0aec0;
+            color: #2d3748;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 10px;
@@ -706,11 +706,11 @@
                         <tr>
                             <th>Case #</th>
                             <th>Category</th>
+                            <th>Pathologist</th>
                             <th>Accession Date</th>
-                            <th>Days Pending</th>
                             <th>Receipt</th>
                             <th>Flow</th>
-                            <th>Pathologist</th>
+                            <th>Days Pending</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -1339,24 +1339,36 @@
             elements.noPending.style.display = 'none';
             elements.pendingTbody.innerHTML = pendingCases.map(c => {
                 const isLate = c.daysPending > CONFIG.TARGET_SIGNOUT;
-                const receiptStatus = c.receiptDate ?
-                    (c.receiptLate ? '<span class="late-flag">Late</span>' : '<span class="on-time-flag">OK</span>') :
-                    '<span style="color:#718096">Pending</span>';
-                const flowStatus = c.flowResultDate ?
-                    (c.flowLate ? '<span class="late-flag">Late</span>' : '<span class="on-time-flag">OK</span>') :
-                    '<span style="color:#718096">Pending</span>';
+
+                // Receipt: show days with color based on target
+                let receiptDisplay;
+                if (c.receiptDate) {
+                    const receiptColor = c.receiptLate ? '#e53e3e' : '#38a169';
+                    receiptDisplay = `<span style="color: ${receiptColor}; font-weight: 600;">${c.daysToReceipt} day${c.daysToReceipt !== 1 ? 's' : ''}</span>`;
+                } else {
+                    receiptDisplay = '<span style="color:#718096">Pending</span>';
+                }
+
+                // Flow: show days with color based on target
+                let flowDisplay;
+                if (c.flowResultDate) {
+                    const flowColor = c.flowLate ? '#e53e3e' : '#38a169';
+                    flowDisplay = `<span style="color: ${flowColor}; font-weight: 600;">${c.daysToFlow} day${c.daysToFlow !== 1 ? 's' : ''}</span>`;
+                } else {
+                    flowDisplay = '<span style="color:#718096">Pending</span>';
+                }
 
                 return `
                     <tr>
                         <td><strong>${c.caseNumber}</strong></td>
                         <td>${c.category}</td>
-                        <td>${formatDate(c.accessionDate)}</td>
-                        <td style="color: ${isLate ? '#e53e3e' : '#2d3748'}; font-weight: 600;">
-                            ${c.daysPending} days ${isLate ? '<span class="late-flag">LATE</span>' : ''}
-                        </td>
-                        <td>${receiptStatus}</td>
-                        <td>${flowStatus}</td>
                         <td>${c.pathologist}</td>
+                        <td>${formatDate(c.accessionDate)}</td>
+                        <td>${receiptDisplay}</td>
+                        <td>${flowDisplay}</td>
+                        <td style="color: ${isLate ? '#e53e3e' : '#2d3748'}; font-weight: 600;">
+                            ${c.daysPending} day${c.daysPending !== 1 ? 's' : ''} ${isLate ? '<span class="late-flag">LATE</span>' : ''}
+                        </td>
                         <td>${isLate ? '<span class="late-flag">Overdue</span>' : '<span class="on-time-flag">On Track</span>'}</td>
                     </tr>
                 `;
