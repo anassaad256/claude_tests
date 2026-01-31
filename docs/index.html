@@ -836,7 +836,8 @@
         };
 
         // ============ STATE ============
-        let sheetUrl = localStorage.getItem('bm_sheet_url') || '';
+        const DEFAULT_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRUa98mgGf_QLK8c8HHEIiOjfyMMxYwppatZz6fulGMsNO4qJca0o0adyfZqcKeeinpF1_n1pNgOMy3/pub?output=csv';
+        let sheetUrl = localStorage.getItem('bm_sheet_url') || DEFAULT_SHEET_URL;
         let allCases = [];
         let refreshTimer = null;
 
