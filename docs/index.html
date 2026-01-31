@@ -657,6 +657,8 @@
                 <div class="control-group">
                     <label>Date Range</label>
                     <select id="date-range">
+                        <option value="this_month">This Month</option>
+                        <option value="last_month">Last Month</option>
                         <option value="30">Last 30 Days</option>
                         <option value="60">Last 60 Days</option>
                         <option value="90">Last 90 Days</option>
@@ -1096,6 +1098,14 @@
             if (range === 'custom') {
                 startDate = elements.customStart.value ? new Date(elements.customStart.value) : null;
                 endDate = elements.customEnd.value ? new Date(elements.customEnd.value) : new Date();
+            } else if (range === 'this_month') {
+                const today = new Date();
+                startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+                endDate = new Date();
+            } else if (range === 'last_month') {
+                const today = new Date();
+                startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+                endDate = new Date(today.getFullYear(), today.getMonth(), 0); // Last day of previous month
             } else {
                 startDate = new Date();
                 startDate.setDate(startDate.getDate() - parseInt(range));
