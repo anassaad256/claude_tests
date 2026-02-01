@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bone Marrow Service Operations Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .page-header {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px 30px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .page-header h1 {
+            color: #2c5282;
+            font-size: 22px;
+        }
+
+        .page-header .subtitle {
+            color: #718096;
+            font-size: 13px;
+        }
+
+        .status-bar {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 13px;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #48bb78;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.error {
+            background: #fc8181;
+            animation: none;
+        }
+
+        .status-dot.loading {
+            background: #ecc94b;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Controls */
+        .controls {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            align-items: end;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .control-group label {
+            font-size: 12px;
+            color: #718096;
+            font-weight: 500;
+        }
+
+        .control-group input, .control-group select {
+            padding: 10px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .control-group input:focus, .control-group select:focus {
+            outline: none;
+            border-color: #3182ce;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #3182ce;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2c5282;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
+        /* Setup Section */
+        .setup-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .setup-section h2 {
+            color: #2c5282;
+            margin-bottom: 15px;
+        }
+
+        .setup-section p {
+            color: #718096;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .setup-section input {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .setup-instructions {
+            text-align: left;
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+
+        .setup-instructions ol {
+            margin-left: 20px;
+        }
+
+        .setup-instructions li {
+            margin-bottom: 8px;
+            color: #4a5568;
+        }
+
+        .setup-instructions code {
+            background: #edf2f7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: none;
+        }
+
+        .dashboard-grid.visible {
+            display: block;
+        }
+
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Improved Metric Cards */
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .metric-card-header {
+            padding: 16px 20px;
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .metric-card.adult .metric-card-header {
+            background: linear-gradient(135deg, #3182ce, #2c5282);
+        }
+
+        .metric-card.pediatric .metric-card-header {
+            background: linear-gradient(135deg, #38a169, #276749);
+        }
+
+        .metric-card-body {
+            padding: 20px;
+        }
+
+        .volume-display {
+            text-align: center;
+            padding: 15px 0;
+            margin-bottom: 15px;
+            background: linear-gradient(to bottom, #f8fafc, #ffffff);
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .volume-number {
+            font-size: 42px;
+            font-weight: 700;
+            color: #2d3748;
+            line-height: 1;
+        }
+
+        .volume-label {
+            font-size: 12px;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 5px;
+        }
+
+        .metric-section {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .metric-section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .metric-section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #2d3748;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .metric-section-title::before {
+            content: '';
+            display: inline-block;
+            width: 3px;
+            height: 12px;
+            background: #cbd5e0;
+            border-radius: 2px;
+        }
+
+        .metric-card.adult .metric-section-title::before {
+            background: #3182ce;
+        }
+
+        .metric-card.pediatric .metric-section-title::before {
+            background: #38a169;
+        }
+
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            margin: 4px 0;
+            background: #f8fafc;
+            border-radius: 6px;
+        }
+
+        .metric-item-label {
+            font-size: 13px;
+            color: #4a5568;
+        }
+
+        .metric-item-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .metric-item-value.good { color: #38a169; }
+        .metric-item-value.warning { color: #d69e2e; }
+        .metric-item-value.alert { color: #e53e3e; }
+
+        .metric-item.highlight {
+            background: linear-gradient(to right, #ebf8ff, #f0fff4);
+            border: 1px solid #bee3f8;
+        }
+
+        .metric-card.pediatric .metric-item.highlight {
+            background: linear-gradient(to right, #f0fff4, #ebf8ff);
+            border: 1px solid #9ae6b4;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-fill.good { background: linear-gradient(to right, #48bb78, #38a169); }
+        .progress-fill.warning { background: linear-gradient(to right, #ecc94b, #d69e2e); }
+        .progress-fill.alert { background: linear-gradient(to right, #fc8181, #e53e3e); }
+
+        /* Outlier Display */
+        .outlier-display {
+            text-align: center;
+            padding: 15px;
+            background: #f0fff4;
+            border-radius: 8px;
+            border: 1px solid #9ae6b4;
+        }
+
+        .outlier-display.has-outliers {
+            background: #fff5f5;
+            border-color: #feb2b2;
+        }
+
+        .outlier-count {
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .outlier-count.good { color: #38a169; }
+        .outlier-count.alert { color: #e53e3e; }
+
+        .outlier-label {
+            font-size: 13px;
+            color: #4a5568;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        .outlier-cases {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #c53030;
+            font-weight: 500;
+            padding-top: 10px;
+            border-top: 1px solid #feb2b2;
+        }
+
+        /* Performance Legend */
+        .performance-legend {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .legend-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .legend-items {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #4a5568;
+        }
+
+        .legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+        }
+
+        .legend-dot.good { background: linear-gradient(135deg, #48bb78, #38a169); }
+        .legend-dot.warning { background: linear-gradient(135deg, #ecc94b, #d69e2e); }
+        .legend-dot.alert { background: linear-gradient(135deg, #fc8181, #e53e3e); }
+
+        /* Pathologist Section */
+        .pathologist-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .pathologist-section h3 {
+            font-size: 14px;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+
+        .pathologist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .pathologist-card {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 15px;
+            border-left: 4px solid #3182ce;
+        }
+
+        .pathologist-name {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .pathologist-stat {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            padding: 4px 0;
+        }
+
+        /* Pending Cases Table */
+        .pending-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e53e3e;
+        }
+
+        .pending-section h3 {
+            font-size: 14px;
+            color: #c53030;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pending-count {
+            background: #e53e3e;
+            color: white;
+            padding: 3px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .pending-count.zero {
+            background: #38a169;
+        }
+
+        .pending-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .pending-table th {
+            text-align: left;
+            padding: 12px 10px;
+            background: #fff5f5;
+            color: #c53030;
+            font-weight: 600;
+            border-bottom: 2px solid #feb2b2;
+        }
+
+        .pending-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .pending-table tr:hover {
+            background: #fffaf0;
+        }
+
+        .late-flag {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .on-time-flag {
+            background: #c6f6d5;
+            color: #276749;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #a0aec0;
+            font-size: 12px;
+        }
+
+        /* Print Styles */
+        @media print {
+            body { background: white; }
+            .controls, .setup-section, .page-header .status-bar { display: none !important; }
+            .metric-card, .pending-section, .pathologist-section, .performance-legend {
+                box-shadow: none;
+                border: 1px solid #e2e8f0;
+            }
+        }
+
+        /* Error/Loading states */
+        .error-banner {
+            background: #fff5f5;
+            border: 1px solid #fc8181;
+            color: #c53030;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-banner.visible {
+            display: block;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .loading-overlay.visible {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e2e8f0;
+            border-top-color: #3182ce;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1>Bone Marrow Service Operations Dashboard</h1>
+                <div class="subtitle">Hematopathology Section | DMC/WSU</div>
+            </div>
+            <div class="status-bar">
+                <div class="status-indicator">
+                    <div class="status-dot" id="status-dot"></div>
+                    <span id="status-text">Connecting...</span>
+                </div>
+                <span id="last-updated"></span>
+            </div>
+        </div>
+
+        <!-- Error Banner -->
+        <div class="error-banner" id="error-banner"></div>
+
+        <!-- Setup Section (shown when no sheet URL) -->
+        <div class="setup-section" id="setup-section">
+            <h2>Connect Google Sheet</h2>
+            <p>Enter your published Google Sheet URL to connect the dashboard.</p>
+
+            <input type="text" id="sheet-url" placeholder="Paste your Google Sheet published CSV URL here">
+            <br>
+            <button class="btn btn-primary" id="connect-btn">Connect Sheet</button>
+
+            <div class="setup-instructions">
+                <strong>Setup Instructions:</strong>
+                <ol>
+                    <li>Open your Google Sheet with bone marrow case data</li>
+                    <li>Go to <strong>File → Share → Publish to web</strong></li>
+                    <li>Select the sheet tab and choose <strong>Comma-separated values (.csv)</strong></li>
+                    <li>Click <strong>Publish</strong> and copy the URL</li>
+                    <li>Paste the URL above and click Connect</li>
+                </ol>
+                <p style="margin-top: 15px;"><strong>Required columns:</strong></p>
+                <code>case_number, patient_age_category, accession_date, receipt_date, flow_result_date, signout_date, pathologist, amendment_flag</code>
+                <p style="margin-top: 10px; color: #718096;">
+                    Dates should be in format: MM/DD/YYYY or YYYY-MM-DD<br>
+                    patient_age_category: "Adult" or "Pediatric"<br>
+                    pathologist: "Dr. Schultz" or "Dr. Dewar"<br>
+                    Leave signout_date blank for pending cases
+                </p>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls" id="controls" style="display: none;">
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label>Date Range</label>
+                    <select id="date-range">
+                        <option value="30">Last 30 Days</option>
+                        <option value="this_month">This Month</option>
+                        <option value="last_month">Last Month</option>
+                        <option value="60">Last 60 Days</option>
+                        <option value="90">Last 90 Days</option>
+                        <option value="180">Last 6 Months</option>
+                        <option value="365">Last Year</option>
+                        <option value="custom">Custom Range</option>
+                    </select>
+                </div>
+                <div class="control-group" id="custom-start-group" style="display: none;">
+                    <label>Start Date</label>
+                    <input type="date" id="custom-start">
+                </div>
+                <div class="control-group" id="custom-end-group" style="display: none;">
+                    <label>End Date</label>
+                    <input type="date" id="custom-end">
+                </div>
+                <div class="control-group">
+                    <label>Pathologist Filter</label>
+                    <select id="pathologist-filter">
+                        <option value="all">All Pathologists</option>
+                        <option value="Dr. Schultz">Dr. Schultz</option>
+                        <option value="Dr. Dewar">Dr. Dewar</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-primary" id="refresh-btn">↻ Refresh Now</button>
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-secondary" id="print-btn">Print Dashboard</button>
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-secondary" id="disconnect-btn">Disconnect Sheet</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid" id="dashboard-grid">
+            <!-- Pending Cases (MOVED TO TOP) -->
+            <div class="pending-section" id="pending-section">
+                <h3>
+                    Pending Cases
+                    <span class="pending-count" id="pending-count">0</span>
+                </h3>
+                <table class="pending-table">
+                    <thead>
+                        <tr>
+                            <th>Case #</th>
+                            <th>Category</th>
+                            <th>Pathologist</th>
+                            <th>Accession Date</th>
+                            <th>Receipt</th>
+                            <th>Flow</th>
+                            <th>Days Pending</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pending-tbody">
+                    </tbody>
+                </table>
+                <div class="no-data" id="no-pending" style="display: none;">
+                    No pending cases - all caught up!
+                </div>
+            </div>
+
+            <!-- Metrics Row -->
+            <div class="metrics-row" id="metrics-row">
+                <!-- Cards will be injected here -->
+            </div>
+
+            <!-- Performance Legend -->
+            <div class="performance-legend">
+                <span class="legend-title">Performance:</span>
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <div class="legend-dot good"></div>
+                        <span>Target Met (≥90%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot warning"></div>
+                        <span>Near Target (75-90%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot alert"></div>
+                        <span>Below Target (<75%)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pathologist Breakdown -->
+            <div class="pathologist-section" id="pathologist-section">
+                <h3>Pathologist Workload</h3>
+                <div class="pathologist-grid" id="pathologist-grid">
+                    <!-- Pathologist cards injected here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            Turnaround times calculated using business days only (excludes weekends and holidays).<br>
+            Data refreshes automatically every hour. No PHI is stored or transmitted.
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <script>
+        // ============ CONFIGURATION ============
+        const CONFIG = {
+            // TAT Targets (business days)
+            TARGET_RECEIPT: 1,      // Accession to Receipt
+            TARGET_FLOW: 2,         // Accession to Flow Result
+            TARGET_SIGNOUT: 3,      // Accession to Sign-out
+            OUTLIER_THRESHOLD: 7,   // TAT Outlier threshold
+
+            // Performance thresholds
+            TARGET_MET_PCT: 90,
+            NEAR_TARGET_PCT: 75,
+
+            // Refresh interval (1 hour in ms)
+            REFRESH_INTERVAL: 60 * 60 * 1000,
+
+            // Holidays (no work days)
+            HOLIDAYS: [
+                // 2026
+                '2026-01-01', '2026-05-25', '2026-07-03', '2026-09-07', '2026-11-26', '2026-12-25',
+                // 2027
+                '2027-01-01', '2027-05-31', '2027-07-05', '2027-09-06', '2027-11-25', '2027-12-24',
+                // 2028
+                '2028-01-01', '2028-05-29', '2028-07-04', '2028-09-04', '2028-11-23', '2028-12-25',
+            ]
+        };
+
+        // ============ STATE ============
+        const DEFAULT_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRUa98mgGf_QLK8c8HHEIiOjfyMMxYwppatZz6fulGMsNO4qJca0o0adyfZqcKeeinpF1_n1pNgOMy3/pub?output=csv';
+        let sheetUrl = localStorage.getItem('bm_sheet_url') || DEFAULT_SHEET_URL;
+        let allCases = [];
+        let refreshTimer = null;
+
+        // ============ DOM ELEMENTS ============
+        const elements = {
+            setupSection: document.getElementById('setup-section'),
+            controls: document.getElementById('controls'),
+            dashboardGrid: document.getElementById('dashboard-grid'),
+            sheetUrlInput: document.getElementById('sheet-url'),
+            connectBtn: document.getElementById('connect-btn'),
+            disconnectBtn: document.getElementById('disconnect-btn'),
+            refreshBtn: document.getElementById('refresh-btn'),
+            printBtn: document.getElementById('print-btn'),
+            dateRange: document.getElementById('date-range'),
+            customStartGroup: document.getElementById('custom-start-group'),
+            customEndGroup: document.getElementById('custom-end-group'),
+            customStart: document.getElementById('custom-start'),
+            customEnd: document.getElementById('custom-end'),
+            pathologistFilter: document.getElementById('pathologist-filter'),
+            statusDot: document.getElementById('status-dot'),
+            statusText: document.getElementById('status-text'),
+            lastUpdated: document.getElementById('last-updated'),
+            errorBanner: document.getElementById('error-banner'),
+            loadingOverlay: document.getElementById('loading-overlay'),
+            metricsRow: document.getElementById('metrics-row'),
+            pathologistGrid: document.getElementById('pathologist-grid'),
+            pendingTbody: document.getElementById('pending-tbody'),
+            pendingCount: document.getElementById('pending-count'),
+            noPending: document.getElementById('no-pending')
+        };
+
+        // ============ INITIALIZATION ============
+        function init() {
+            elements.connectBtn.addEventListener('click', connectSheet);
+            elements.disconnectBtn.addEventListener('click', disconnectSheet);
+            elements.refreshBtn.addEventListener('click', () => fetchData());
+            elements.printBtn.addEventListener('click', () => window.print());
+            elements.dateRange.addEventListener('change', handleDateRangeChange);
+            elements.pathologistFilter.addEventListener('change', () => renderDashboard());
+            elements.customStart.addEventListener('change', () => renderDashboard());
+            elements.customEnd.addEventListener('change', () => renderDashboard());
+
+            const today = new Date();
+            const thirtyDaysAgo = new Date(today);
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+            elements.customEnd.value = formatDateForInput(today);
+            elements.customStart.value = formatDateForInput(thirtyDaysAgo);
+
+            if (sheetUrl) {
+                showDashboard();
+                fetchData();
+                startAutoRefresh();
+            } else {
+                showSetup();
+            }
+        }
+
+        // ============ UI STATE ============
+        function showSetup() {
+            elements.setupSection.style.display = 'block';
+            elements.controls.style.display = 'none';
+            elements.dashboardGrid.classList.remove('visible');
+            setStatus('disconnected', 'Not connected');
+        }
+
+        function showDashboard() {
+            elements.setupSection.style.display = 'none';
+            elements.controls.style.display = 'block';
+            elements.dashboardGrid.classList.add('visible');
+        }
+
+        function showLoading(show) {
+            elements.loadingOverlay.classList.toggle('visible', show);
+        }
+
+        function showError(message) {
+            elements.errorBanner.textContent = message;
+            elements.errorBanner.classList.add('visible');
+            setStatus('error', 'Error');
+        }
+
+        function hideError() {
+            elements.errorBanner.classList.remove('visible');
+        }
+
+        function setStatus(status, text) {
+            elements.statusDot.className = 'status-dot ' + status;
+            elements.statusText.textContent = text;
+        }
+
+        function handleDateRangeChange() {
+            const isCustom = elements.dateRange.value === 'custom';
+            elements.customStartGroup.style.display = isCustom ? 'flex' : 'none';
+            elements.customEndGroup.style.display = isCustom ? 'flex' : 'none';
+            renderDashboard();
+        }
+
+        // ============ SHEET CONNECTION ============
+        function connectSheet() {
+            const url = elements.sheetUrlInput.value.trim();
+            if (!url) {
+                showError('Please enter a Google Sheet URL');
+                return;
+            }
+            sheetUrl = url;
+            localStorage.setItem('bm_sheet_url', url);
+            showDashboard();
+            fetchData();
+            startAutoRefresh();
+        }
+
+        function disconnectSheet() {
+            sheetUrl = '';
+            localStorage.removeItem('bm_sheet_url');
+            allCases = [];
+            stopAutoRefresh();
+            showSetup();
+            hideError();
+        }
+
+        // ============ DATA FETCHING ============
+        async function fetchData() {
+            showLoading(true);
+            hideError();
+            setStatus('loading', 'Updating...');
+
+            try {
+                const response = await fetch(sheetUrl);
+                if (!response.ok) throw new Error('Failed to fetch sheet');
+
+                const csv = await response.text();
+                allCases = parseCSV(csv);
+
+                setStatus('connected', 'Connected');
+                elements.lastUpdated.textContent = 'Updated: ' + new Date().toLocaleTimeString();
+
+                renderDashboard();
+            } catch (err) {
+                showError('Failed to load data: ' + err.message + '. Check your sheet URL and make sure it\'s published.');
+                setStatus('error', 'Error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function startAutoRefresh() {
+            stopAutoRefresh();
+            refreshTimer = setInterval(fetchData, CONFIG.REFRESH_INTERVAL);
+        }
+
+        function stopAutoRefresh() {
+            if (refreshTimer) {
+                clearInterval(refreshTimer);
+                refreshTimer = null;
+            }
+        }
+
+        // ============ CSV PARSING ============
+        function parseCSV(csv) {
+            const lines = csv.trim().split('\n');
+            if (lines.length < 2) return [];
+
+            const headers = lines[0].split(',').map(h =>
+                h.trim().toLowerCase().replace(/[^a-z0-9_]/g, '_')
+            );
+
+            const cases = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                const values = parseCSVLine(lines[i]);
+                if (values.length !== headers.length) continue;
+
+                const row = {};
+                headers.forEach((h, idx) => {
+                    row[h] = values[idx].trim();
+                });
+
+                const caseData = {
+                    caseNumber: row.case_number || row.case_ || row.casenumber || `Case-${i}`,
+                    category: normalizeCategory(row.patient_age_category || row.age_category || row.category),
+                    accessionDate: parseDate(row.accession_date || row.accession),
+                    receiptDate: parseDate(row.receipt_date || row.receipt),
+                    flowResultDate: parseDate(row.flow_result_date || row.flow_result || row.flow_date),
+                    signoutDate: parseDate(row.signout_date || row.sign_out_date || row.signout),
+                    pathologist: row.pathologist || row.attending || 'Unknown',
+                    amended: (row.amendment_flag || row.amended || 'N').toUpperCase() === 'Y'
+                };
+
+                if (!caseData.accessionDate) continue;
+
+                const today = new Date();
+
+                if (caseData.receiptDate) {
+                    caseData.daysToReceipt = calculateBusinessDays(caseData.accessionDate, caseData.receiptDate);
+                    caseData.receiptLate = caseData.daysToReceipt > CONFIG.TARGET_RECEIPT;
+                }
+
+                if (caseData.flowResultDate) {
+                    caseData.daysToFlow = calculateBusinessDays(caseData.accessionDate, caseData.flowResultDate);
+                    caseData.flowLate = caseData.daysToFlow > CONFIG.TARGET_FLOW;
+                }
+
+                if (caseData.signoutDate) {
+                    caseData.daysToSignout = calculateBusinessDays(caseData.accessionDate, caseData.signoutDate);
+                    caseData.signoutLate = caseData.daysToSignout > CONFIG.TARGET_SIGNOUT;
+                    caseData.isOutlier = caseData.daysToSignout > CONFIG.OUTLIER_THRESHOLD;
+                    caseData.isPending = false;
+                } else {
+                    caseData.isPending = true;
+                    caseData.daysPending = calculateBusinessDays(caseData.accessionDate, today);
+                }
+
+                cases.push(caseData);
+            }
+
+            return cases;
+        }
+
+        function parseCSVLine(line) {
+            const values = [];
+            let current = '';
+            let inQuotes = false;
+
+            for (let char of line) {
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    values.push(current);
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            values.push(current);
+            return values;
+        }
+
+        function parseDate(str) {
+            if (!str) return null;
+            if (str.includes('/')) {
+                const parts = str.split('/');
+                if (parts.length === 3) {
+                    const month = parseInt(parts[0]) - 1;
+                    const day = parseInt(parts[1]);
+                    const year = parseInt(parts[2]);
+                    return new Date(year, month, day);
+                }
+            }
+            const date = new Date(str);
+            return isNaN(date.getTime()) ? null : date;
+        }
+
+        function normalizeCategory(cat) {
+            if (!cat) return 'Adult';
+            return cat.toLowerCase().includes('ped') ? 'Pediatric' : 'Adult';
+        }
+
+        function formatDateForInput(date) {
+            return date.toISOString().split('T')[0];
+        }
+
+        // ============ BUSINESS DAYS CALCULATION ============
+        function calculateBusinessDays(startDate, endDate) {
+            if (!startDate || !endDate) return null;
+
+            let count = 0;
+            const current = new Date(startDate);
+            current.setHours(0, 0, 0, 0);
+
+            const end = new Date(endDate);
+            end.setHours(0, 0, 0, 0);
+
+            while (current < end) {
+                current.setDate(current.getDate() + 1);
+                if (isBusinessDay(current)) {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        function isBusinessDay(date) {
+            const day = date.getDay();
+            if (day === 0 || day === 6) return false;
+            const dateStr = date.toISOString().split('T')[0];
+            if (CONFIG.HOLIDAYS.includes(dateStr)) return false;
+            return true;
+        }
+
+        // ============ FILTERING ============
+        function getFilteredCases() {
+            let cases = [...allCases];
+
+            const range = elements.dateRange.value;
+            let startDate, endDate = new Date();
+
+            if (range === 'custom') {
+                startDate = elements.customStart.value ? new Date(elements.customStart.value) : null;
+                endDate = elements.customEnd.value ? new Date(elements.customEnd.value) : new Date();
+            } else if (range === 'this_month') {
+                const today = new Date();
+                startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+                endDate = new Date();
+            } else if (range === 'last_month') {
+                const today = new Date();
+                startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+                endDate = new Date(today.getFullYear(), today.getMonth(), 0); // Last day of previous month
+            } else {
+                startDate = new Date();
+                startDate.setDate(startDate.getDate() - parseInt(range));
+            }
+
+            if (startDate) {
+                cases = cases.filter(c => c.accessionDate >= startDate);
+            }
+            cases = cases.filter(c => c.accessionDate <= endDate);
+
+            const pathFilter = elements.pathologistFilter.value;
+            if (pathFilter !== 'all') {
+                cases = cases.filter(c => c.pathologist === pathFilter);
+            }
+
+            return cases;
+        }
+
+        // ============ METRICS CALCULATION ============
+        function calculateMetrics(cases, category) {
+            const filtered = cases.filter(c => c.category === category && !c.isPending);
+
+            if (filtered.length === 0) {
+                return {
+                    volume: 0,
+                    receiptMedian: 0, receiptPct: 0,
+                    flowMedian: 0, flowPct: 0,
+                    signoutMedian: 0, signoutP90: 0, signoutPct: 0,
+                    outlierCount: 0, outlierCases: []
+                };
+            }
+
+            const volume = filtered.length;
+
+            const receiptValues = filtered.map(c => c.daysToReceipt).filter(v => v != null);
+            const receiptMedian = median(receiptValues);
+            const receiptOnTime = receiptValues.filter(v => v <= CONFIG.TARGET_RECEIPT).length;
+            const receiptPct = receiptValues.length ? (receiptOnTime / receiptValues.length * 100) : 0;
+
+            const flowValues = filtered.map(c => c.daysToFlow).filter(v => v != null);
+            const flowMedian = median(flowValues);
+            const flowOnTime = flowValues.filter(v => v <= CONFIG.TARGET_FLOW).length;
+            const flowPct = flowValues.length ? (flowOnTime / flowValues.length * 100) : 0;
+
+            const signoutValues = filtered.map(c => c.daysToSignout).filter(v => v != null);
+            const signoutMedian = median(signoutValues);
+            const signoutP90 = percentile(signoutValues, 90);
+            const signoutOnTime = signoutValues.filter(v => v <= CONFIG.TARGET_SIGNOUT).length;
+            const signoutPct = signoutValues.length ? (signoutOnTime / signoutValues.length * 100) : 0;
+
+            const outlierCases = filtered.filter(c => c.isOutlier).map(c => c.caseNumber);
+
+            return {
+                volume,
+                receiptMedian: round(receiptMedian, 1),
+                receiptPct: round(receiptPct, 1),
+                flowMedian: round(flowMedian, 1),
+                flowPct: round(flowPct, 1),
+                signoutMedian: round(signoutMedian, 1),
+                signoutP90: round(signoutP90, 1),
+                signoutPct: round(signoutPct, 1),
+                outlierCount: outlierCases.length,
+                outlierCases
+            };
+        }
+
+        function calculatePathologistMetrics(cases) {
+            const pathologists = ['Dr. Schultz', 'Dr. Dewar'];
+            return pathologists.map(name => {
+                const pathCases = cases.filter(c => c.pathologist === name && !c.isPending);
+                const pending = cases.filter(c => c.pathologist === name && c.isPending);
+
+                return {
+                    name,
+                    completed: pathCases.length,
+                    pending: pending.length,
+                    medianTAT: median(pathCases.map(c => c.daysToSignout).filter(v => v != null)),
+                    outlierCount: pathCases.filter(c => c.isOutlier).length
+                };
+            });
+        }
+
+        // ============ HELPER FUNCTIONS ============
+        function median(arr) {
+            if (!arr.length) return 0;
+            const sorted = [...arr].sort((a, b) => a - b);
+            const mid = Math.floor(sorted.length / 2);
+            return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+        }
+
+        function percentile(arr, p) {
+            if (!arr.length) return 0;
+            const sorted = [...arr].sort((a, b) => a - b);
+            const k = (sorted.length - 1) * p / 100;
+            const f = Math.floor(k);
+            const c = Math.min(f + 1, sorted.length - 1);
+            return sorted[f] + (sorted[c] - sorted[f]) * (k - f);
+        }
+
+        function round(num, decimals) {
+            return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
+        }
+
+        function getStatus(pct) {
+            if (pct >= CONFIG.TARGET_MET_PCT) return 'good';
+            if (pct >= CONFIG.NEAR_TARGET_PCT) return 'warning';
+            return 'alert';
+        }
+
+        function formatDate(date) {
+            if (!date) return '-';
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        // ============ RENDERING ============
+        function renderDashboard() {
+            const cases = getFilteredCases();
+
+            const adultMetrics = calculateMetrics(cases, 'Adult');
+            const pedsMetrics = calculateMetrics(cases, 'Pediatric');
+            const pathMetrics = calculatePathologistMetrics(cases);
+            const pendingCases = cases.filter(c => c.isPending).sort((a, b) => b.daysPending - a.daysPending);
+
+            renderPendingCases(pendingCases);
+            renderMetricCards(adultMetrics, pedsMetrics);
+            renderPathologistSection(pathMetrics);
+        }
+
+        function renderMetricCards(adult, peds) {
+            elements.metricsRow.innerHTML = `
+                ${renderMetricCard('Adult Bone Marrow', 'adult', adult)}
+                ${renderMetricCard('Pediatric Bone Marrow', 'pediatric', peds)}
+            `;
+        }
+
+        function renderMetricCard(title, className, m) {
+            return `
+                <div class="metric-card ${className}">
+                    <div class="metric-card-header">${title}</div>
+                    <div class="metric-card-body">
+                        <div class="volume-display">
+                            <div class="volume-number">${m.volume}</div>
+                            <div class="volume-label">Completed Cases</div>
+                        </div>
+
+                        <div class="metric-section">
+                            <div class="metric-section-title">Time to Receipt</div>
+                            <div class="metric-item">
+                                <span class="metric-item-label">Median</span>
+                                <span class="metric-item-value">${m.receiptMedian} days</span>
+                            </div>
+                            <div class="metric-item highlight">
+                                <span class="metric-item-label">Within ${CONFIG.TARGET_RECEIPT} day target</span>
+                                <span class="metric-item-value ${getStatus(m.receiptPct)}">${m.receiptPct}%</span>
+                            </div>
+                        </div>
+
+                        <div class="metric-section">
+                            <div class="metric-section-title">Time to Flow Result</div>
+                            <div class="metric-item">
+                                <span class="metric-item-label">Median</span>
+                                <span class="metric-item-value">${m.flowMedian} days</span>
+                            </div>
+                            <div class="metric-item highlight">
+                                <span class="metric-item-label">Within ${CONFIG.TARGET_FLOW} day target</span>
+                                <span class="metric-item-value ${getStatus(m.flowPct)}">${m.flowPct}%</span>
+                            </div>
+                        </div>
+
+                        <div class="metric-section">
+                            <div class="metric-section-title">Time to Sign-out</div>
+                            <div class="metric-item">
+                                <span class="metric-item-label">Median</span>
+                                <span class="metric-item-value">${m.signoutMedian} days</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-item-label">90th Percentile</span>
+                                <span class="metric-item-value">${m.signoutP90} days</span>
+                            </div>
+                            <div class="metric-item highlight">
+                                <span class="metric-item-label">Within ${CONFIG.TARGET_SIGNOUT} day target</span>
+                                <span class="metric-item-value ${getStatus(m.signoutPct)}">${m.signoutPct}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill ${getStatus(m.signoutPct)}" style="width: ${Math.min(m.signoutPct, 100)}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="metric-section" style="border-bottom: none;">
+                            <div class="outlier-display ${m.outlierCount > 0 ? 'has-outliers' : ''}">
+                                <div class="outlier-count ${m.outlierCount > 0 ? 'alert' : 'good'}">${m.outlierCount}</div>
+                                <div class="outlier-label">TAT Outliers (>${CONFIG.OUTLIER_THRESHOLD} days)</div>
+                                ${m.outlierCases.length > 0 ? `
+                                    <div class="outlier-cases">${m.outlierCases.join(', ')}</div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderPathologistSection(pathMetrics) {
+            elements.pathologistGrid.innerHTML = pathMetrics.map(p => `
+                <div class="pathologist-card">
+                    <div class="pathologist-name">${p.name}</div>
+                    <div class="pathologist-stat">
+                        <span>Completed</span>
+                        <span>${p.completed}</span>
+                    </div>
+                    <div class="pathologist-stat">
+                        <span>Pending</span>
+                        <span style="color: ${p.pending > 0 ? '#e53e3e' : '#38a169'}">${p.pending}</span>
+                    </div>
+                    <div class="pathologist-stat">
+                        <span>Median TAT</span>
+                        <span>${p.medianTAT ? round(p.medianTAT, 1) + ' days' : '-'}</span>
+                    </div>
+                    <div class="pathologist-stat">
+                        <span>Outliers (>7d)</span>
+                        <span style="color: ${p.outlierCount > 0 ? '#e53e3e' : '#38a169'}">${p.outlierCount}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderPendingCases(pendingCases) {
+            elements.pendingCount.textContent = pendingCases.length;
+            elements.pendingCount.classList.toggle('zero', pendingCases.length === 0);
+
+            if (pendingCases.length === 0) {
+                elements.pendingTbody.innerHTML = '';
+                elements.noPending.style.display = 'block';
+                return;
+            }
+
+            elements.noPending.style.display = 'none';
+            elements.pendingTbody.innerHTML = pendingCases.map(c => {
+                const isLate = c.daysPending > CONFIG.TARGET_SIGNOUT;
+
+                // Receipt: show days with color based on target
+                let receiptDisplay;
+                if (c.receiptDate) {
+                    const receiptColor = c.receiptLate ? '#e53e3e' : '#38a169';
+                    receiptDisplay = `<span style="color: ${receiptColor}; font-weight: 600;">${c.daysToReceipt} day${c.daysToReceipt !== 1 ? 's' : ''}</span>`;
+                } else {
+                    receiptDisplay = '<span style="color:#718096">Pending</span>';
+                }
+
+                // Flow: show days with color based on target
+                let flowDisplay;
+                if (c.flowResultDate) {
+                    const flowColor = c.flowLate ? '#e53e3e' : '#38a169';
+                    flowDisplay = `<span style="color: ${flowColor}; font-weight: 600;">${c.daysToFlow} day${c.daysToFlow !== 1 ? 's' : ''}</span>`;
+                } else {
+                    flowDisplay = '<span style="color:#718096">Pending</span>';
+                }
+
+                return `
+                    <tr>
+                        <td><strong>${c.caseNumber}</strong></td>
+                        <td>${c.category}</td>
+                        <td>${c.pathologist}</td>
+                        <td>${formatDate(c.accessionDate)}</td>
+                        <td>${receiptDisplay}</td>
+                        <td>${flowDisplay}</td>
+                        <td style="color: ${isLate ? '#e53e3e' : '#2d3748'}; font-weight: 600;">
+                            ${c.daysPending} day${c.daysPending !== 1 ? 's' : ''} ${isLate ? '<span class="late-flag">LATE</span>' : ''}
+                        </td>
+                        <td>${isLate ? '<span class="late-flag">Overdue</span>' : '<span class="on-time-flag">On Track</span>'}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // ============ START ============
+        init();
+    </script>
+</body>
+</html>
